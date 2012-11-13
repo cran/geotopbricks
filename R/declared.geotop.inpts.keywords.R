@@ -1,0 +1,108 @@
+# TODO: Add comment
+# 
+# Author: ecor
+###############################################################################
+
+#
+#> fruits <- c("one apple", "two pears", "three bananas")
+#> str_replace(fruits, "[aeiou]", "-")
+#[1] "-ne apple"     "tw- pears"     "thr-e bananas"
+#> fruits
+#[1] "one apple"     "two pears"     "three bananas"
+#> fruits <- c( "apples and oranges and pears and bananas", "pineapples and mangos and guavas"
+#				+ )
+#> fruits
+#[1] "apples and oranges and pears and bananas" "pineapples and mangos and guavas"        
+#> str_split(fruits, " and ")
+#[[1]]
+#[1] "apples"  "oranges" "pears"   "bananas"
+#
+#[[2]]
+#[1] "pineapples" "mangos"     "guavas"    
+#
+#> str_split(fruits, "!")
+#[[1]]
+#[1] "apples and oranges and pears and bananas"
+#
+#[[2]]
+#[1] "pineapples and mangos and guavas"
+#
+#> fruits <- c( "!apples and oranges and ! pears and bananas", "pineapples and mangos and guavas"
+#				+ )
+#> str_split(fruits, "!")
+#[[1]]
+#[1] ""                        "apples and oranges and " " pears and bananas"     
+#
+NULL
+#'
+#' Collects all keywords contained in the 'getop.inpts' configuration files and their values in a data frame object. 
+#' 
+#' @param wpath working directory containing GEOtop files
+#' @param inpts.file name of the GEOtop configuration file. Default is \code{"geotop.inpts"}
+#' @param comment comment indicator charcater. Default is \code{"!"}
+#' @param exceptions string vector. If keywords contain an element of this vector, the blank spaces in Value \code{" "} will not be removed. 
+#' @param warn logical argument of \code{\link{readLines}}. Default is \code{FALSE}.
+#' @param ... further arguments of \code{\link{readLines}} 
+#' 
+#' @export 
+#' 
+#' @return a data frame with two columns: \code{Keyword} and \code{Value}
+#' 
+
+declared.geotop.inpts.keywords <- function(wpath='/Users/ecor/LAVORI_IN_CORSO/2012/BOUSSINESQ_wrr/URGENTE_Cordano_Rigon_2012/manuscript_under_development/panola_simulation/simulation_geotop/panola13_run2xC_test3',inpts.file="geotop.inpts",comment="!",exceptions="Date",warn=FALSE,...) {
+
+	
+	file <- paste(wpath,inpts.file,sep="/")
+	
+	x <- readLines(file,warn=warn,...)
+	
+	l <- nchar(x)
+	
+	x <- x[l>2] 
+	
+	xout <- str_split(x,comment)
+	
+	for (i in 1:length(xout)) {
+		
+		x[i] <- xout[[i]][1]
+		
+	}
+	l <- nchar(x)
+	x <- x[l>2] 
+	x <- str_replace_all(x,c("\t"),"")
+#	x <- str_replace_all(x,c(" "),"")
+	split="="
+
+	xout <- str_split(x,split)
+	
+	out <- as.data.frame(array(NA,c((length(xout)),2)))
+	
+	names(out) <- c("Keyword","Value")
+	for (i in 1:length(xout)) {
+		
+		
+		out$Keyword[i] <- xout[[i]][1] 
+		out$Value[i] <- xout[[i]][2]
+	
+		out$Keyword <- str_replace_all(out$Keyword,c(" "),"")		
+	}	
+	
+	out$Keyword <- str_replace_all(out$Keyword,c(" "),"")	
+	
+	exc <- array(FALSE,length(out$Keyword))
+	
+	
+	for (i in 1:length(exceptions)) {
+		
+		exc <- str_detect(out$Keyword,exceptions[i]) | exc
+		
+		
+	}
+	
+	out$Value[!exc] <- str_replace_all(out$Value[!exc],c(" "),"")
+	
+	return(out)
+	
+}
+
+
