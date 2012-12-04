@@ -2,7 +2,7 @@
 \alias{declared.geotop.inpts.keywords}
 \title{Collects all keywords contained in the 'getop.inpts' configuration files and their values in a data frame object.}
 \usage{
-  declared.geotop.inpts.keywords(wpath = "/Users/ecor/LAVORI_IN_CORSO/2012/BOUSSINESQ_wrr/URGENTE_Cordano_Rigon_2012/manuscript_under_development/panola_simulation/simulation_geotop/panola13_run2xC_test3",
+  declared.geotop.inpts.keywords(wpath,
     inpts.file = "geotop.inpts", comment = "!",
     exceptions = "Date", warn = FALSE, ...)
 }
@@ -32,5 +32,8 @@
   Collects all keywords contained in the 'getop.inpts'
   configuration files and their values in a data frame
   object.
+}
+\seealso{
+  \code{\link{get.geotop.inpts.keyword.value}}
 }
 

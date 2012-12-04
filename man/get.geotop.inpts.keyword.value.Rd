@@ -7,7 +7,9 @@
     format = "\%d/\%m/\%Y \%H:\%M", date = FALSE, tz = "A",
     raster = FALSE, file_extension = ".asc",
     add_wpath = FALSE, wpath = NULL,
-    use.read.raster.from.url = TRUE, ...)
+    use.read.raster.from.url = TRUE, data.frame = FALSE,
+    formatter = "\%04d", level = 1, date_field = "Date",
+    ...)
 }
 \arguments{
   \item{keyword}{keyword name}
@@ -33,7 +35,8 @@
   \item{format}{string format representing the date, see
   \code{\link{as.POSIXlt}}, used if \code{date} is
   \code{TRUE}. Default is \code{"\%d/\%m/\%Y \%H:\%M"}
-  (which is the format used in \code{geotop.inpts})}
+  (which is the format used in \code{geotop.inpts} keyword
+  \code{InitDateDDMMYYYYhhmm})}
 
   \item{tz}{format string representing the time zone, see
   \code{\link{as.POSIXlt}}, used if \code{date} is
@@ -66,6 +69,37 @@
   remote and are 'http' addresses. In this cases the
   stand-alone method \code{raster(x)} does not always work
   and \code{use.read.raster.from.url} is necessary.}
+
+  \item{data.frame}{logical value. It is an option for
+  tabular data. If \code{TRUE} function returns direclty a
+  data frame or a list of data frames as
+  \code{\link{data.frame}} or \code{\link{zoo}} objects
+  imported from the keyword-related files using
+  \code{\link{read.table}} function. In this case the
+  argument \code{wpath} (see
+  \code{\link{declared.geotop.inpts.keywords}}) is
+  mandatory. Default is \code{FALSE}.}
+
+  \item{formatter}{string value. It is the decimal
+  formatter contained in the file name and used in case the
+  tabular data are referred at several points. Default is
+  \code{"\%04d"} . It is used in case \code{data.frame} is
+  \code{TRUE}.}
+
+  \item{level}{integer values. Numbers incating all the
+  identandification numbers of the files containing the
+  requested data frames. Default is 1, correspondig to the
+  decimal formatter \code{"0001"}. See examples.}
+
+  \item{date_field}{string value. Default is "Date",
+  otherwise defined by the value of
+  \code{HeaderDateDDMMYYYYhhmmMeteo} geotop keyword. It is
+  used only if the argument \code{data.frame} is
+  \code{TRUE}. If it is \code{NULL} or \code{NA} the
+  function return a list of generic
+  \code{\link{data.frame}} object(s), otherwise
+  \code{link{zoo}} object(s). See the arguments \code{tz}
+  and \code{format} for Date formatting.}
 
   \item{...}{further arguments of
   \code{\link{declared.geotop.inpts.keywords}}}
@@ -110,6 +144,10 @@ nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath)
 
 start <-  get.geotop.inpts.keyword.value("InitDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A")
 end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A")
+
+nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
+level <- 1:nmeteo
+meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
 
 # end set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
 }

@@ -5,11 +5,11 @@
 
 
 #' 
-#' This packages uses R raster utilities to read and analize outputs of the Distributed Hydrological Model GEOtop (version 1.2225-9 realesed by Stafano Endrizzi) \url{www.geotop.org}. 
+#' This packages uses R raster utilities to read and analize outputs of the Distributed Hydrological Model GEOtop \url{www.geotop.org}. 
 #' It contains functions and methods to import maps and other keywords from geotop.inpts file. 
 #' Any information about the GEOtop Distributed Hydrological Model is available on www.geotop.org. 
 #' Two examples are shown: \url{http://meteogis.fmach.it/idroclima/panola13_run2xC_test3/} and \url{http://meteogis.fmach.it/idroclima/ton-toss/}. 
-#' These examples are tested on two simulation cases run with GEOtop built 1.225-9 mostly developed by Stefano Endrizzi. 
+#' These examples are tested on two simulation cases run with GEOtop built 1.225-9 mostly developed by Stefano Endrizzi (\url{http://www.geo.uzh.ch/en/units/physical-geography-3g/about-us/staff/stefano-endrizzi}). 
 #' Bugs/comments/questions/collaboration of any kind are warmly welcomed.
 #' 
 
@@ -17,8 +17,8 @@
 #' \tabular{ll}{
 #' Package: \tab geotopbricks\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.0\cr
-#' Date: \tab   2012-11-13\cr
+#' Version: \tab 1.1\cr
+#' Date: \tab   2012-12-04\cr
 #' License: \tab GPL (>= 2)
 #'  
 
@@ -38,9 +38,9 @@
 #' @aliases geotobricks
 #' @docType package
 #' @title geotopbricks: Analyzes raster maps as input/output files from the Hydrological Distributed Model GEOtop
-#' @author Emanuele Cordano \email{emanuele.cordano@@gmail.org}, Fabio Zottele \email{fabio.zottele@@fmach.it}
+#' @author Emanuele Cordano \email{emanuele.cordano@@gmail.com}, Daniele Andreis \email{daniele.andreis@@fmach.it},Fabio Zottele \email{fabio.zottele@@fmach.it}
 #' @references \url{wwww.geotop.org}
-#' @note geotobricks is a on-going project. All criticism, comments and suggestions are well welcomed.
+#' @note geotobricks is an on-going project. All criticism, comments and suggestions are well welcomed.
 #' 
 #' geotobricks is free software: you can redistribute it and/or modify
 #'    it under the terms of the GNU General Public License as published by

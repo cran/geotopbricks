@@ -12,13 +12,19 @@ NULL
 #' @param vector_sep character value for the separator chacter if Keyword Value must be returned as a vector, otherwise it is \code{NULL}. Default is \code{NULL}, but if \code{numeric} or \code{date} are \code{FALSE},  \code{vactor_sep} is set \code{","} by default.
 #' @param numeric logical value. If \code{TRUE} the Value has numeric type, otherwise it is a string or string vector. Default is \code{FALSE}.
 #' @param date logical value. If \code{TRUE} the Value is retured as \code{\link{POSIXlt}} date, otherwise it is a string or string vector. Default is \code{FALSE}. 
-#' @param format string format representing the date, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"\%d/\%m/\%Y \%H:\%M"} (which is the format used in \code{geotop.inpts})
+#' @param format string format representing the date, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"\%d/\%m/\%Y \%H:\%M"} (which is the format used in \code{geotop.inpts} keyword \code{InitDateDDMMYYYYhhmm})
 #' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"A"}.
 #' @param raster logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link{Raster-class}} object built with \code{\link{raster}} method. 
 #' @param file_extension Extension to be added to the keyword if keyword is a file name. Default is \code{".asc"}
 #' @param wpath working directory containing GEOtop files (included the inpts file), see \code{\link{declared.geotop.inpts.keywords}}. It is mandatory if \code{raster} is \code{TRUE}. 
 #' @param add_wpath logical value. Default is \code{FALSE}. If \code{TRUE}, the \code{wpath} string is attached to the keyword string value. It is automatically set \code{TRUE} if \code{raster} is \code{TRUE}.
 #' @param use.read.raster.from.url logical value. Default is \code{TRUE}. If \code{TRUE} the RasterLayer are read with \code{\link{read.raster.from.url}}, istead of \code{\link{raster}} (otherwise). It is recomended in case the files whose paths are contained in \code{x} are remote and are 'http' addresses. In this cases the stand-alone method \code{raster(x)} does not always work and \code{use.read.raster.from.url} is necessary.  
+#' @param data.frame logical value. It is an option for tabular data. If \code{TRUE} function returns direclty a data frame  or a list of  data frames as \code{\link{data.frame}} or \code{\link{zoo}} objects imported from the keyword-related files  using \code{\link{read.table}} function. In this case the argument \code{wpath} (see \code{\link{declared.geotop.inpts.keywords}}) is mandatory. Default is \code{FALSE}.
+#' @param formatter string value. It is the decimal formatter contained in the file name and used in case the tabular data are referred at several points. Default is \code{"\%04d"} . It is used in case \code{data.frame} is \code{TRUE}. 
+#' @param level integer values. Numbers incating all the identandification numbers of the files containing the requested data frames. Default is 1, correspondig to the decimal formatter \code{"0001"}. See examples. 
+#' @param date_field string value. Default is "Date", otherwise defined by the value of \code{HeaderDateDDMMYYYYhhmmMeteo} geotop keyword. It is used only if the argument \code{data.frame} is \code{TRUE}. If it is \code{NULL} or \code{NA} the function return a list of generic \code{\link{data.frame}} object(s), otherwise \code{link{zoo}} object(s). See the arguments \code{tz} and \code{format} for Date formatting.
+# TO PUT ZOO CONVERTER 
+#' 
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
 #' @export 
@@ -54,9 +60,13 @@ NULL
 #' start <-  get.geotop.inpts.keyword.value("InitDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A") 
 #' end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A") 
 #' 
+#' nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
+#' level <- 1:nmeteo
+#' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
+#' 
 #' # end set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",...) {
 	
 	
 	if (is.null(inpts.frame)) inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath,...)
@@ -104,7 +114,61 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 } else {
 		     out <- raster(x=filepath)
 		}
-	} else if (add_wpath) {
+	} else if (data.frame) {
+		
+		if (file_extension==".asc" | file_extension=="asc") file_extension=".txt"
+		out <- paste(wpath,out,sep="/")
+		
+		 if (is.null(formatter) | is.null(level) | length(level)<1) {
+		 
+			 formatter <- ""
+		 } else {
+			
+			formatter <- array(formatter,length(level)) 
+			for (i in 1:length(level)) {
+				
+				formatter[i] <- sprintf(formatter[i],level[i])
+				
+			} 
+			
+			
+		 }	  
+	  	
+		 out <- paste(out,formatter,sep="")
+		 
+		 if (str_sub(file_extension,1,1)==".")  {
+			 filepath <- paste(out,file_extension,sep="") 
+		 } else { 	
+			 filepath <- paste(out,file_extension,sep=".") 
+		 }
+		 
+		 out <- filepath
+		 out <- list()
+		 
+		 for (i in 1:length(filepath)) {
+			 
+			 temp <- read.table(filepath[i],header=TRUE,sep=",")
+			 
+			 i_index <- which(names(temp)==date_field)
+			 
+			 if (!is.null(date_field) | !is.na(date_field) | length(i_index)==1 | length(date_field)>0) {
+				
+				 index <- temp[,i_index]
+				 temp<- temp[,-i_index]
+				 index <- as.POSIXlt(index,format=format,tz=tz)
+				 temp <- as.zoo(temp)
+				 index(temp) <- index
+				 
+			 }
+			 
+			 out[[i]] <- temp
+		 }
+		
+		 names(out) <- filepath 
+		 
+		 if (length(out)==1) out <- out[[1]]
+		
+	} else 	if (add_wpath) {
 		
 		if (!is.null(wpath)) out <- paste(wpath,out,sep="/")
 	}

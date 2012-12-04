@@ -48,8 +48,10 @@ NULL
 #' 
 #' @return a data frame with two columns: \code{Keyword} and \code{Value}
 #' 
+#' @seealso \code{\link{get.geotop.inpts.keyword.value}}
+#' 
 
-declared.geotop.inpts.keywords <- function(wpath='/Users/ecor/LAVORI_IN_CORSO/2012/BOUSSINESQ_wrr/URGENTE_Cordano_Rigon_2012/manuscript_under_development/panola_simulation/simulation_geotop/panola13_run2xC_test3',inpts.file="geotop.inpts",comment="!",exceptions="Date",warn=FALSE,...) {
+declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comment="!",exceptions="Date",warn=FALSE,...) {
 
 	
 	file <- paste(wpath,inpts.file,sep="/")
@@ -100,6 +102,10 @@ declared.geotop.inpts.keywords <- function(wpath='/Users/ecor/LAVORI_IN_CORSO/20
 	}
 	
 	out$Value[!exc] <- str_replace_all(out$Value[!exc],c(" "),"")
+	
+	out <- out[out$Keyword!="",] 
+	out <- out[out$Value!="",] 
+	
 	
 	return(out)
 	

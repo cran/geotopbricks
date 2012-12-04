@@ -6,7 +6,6 @@
 \description{
   This packages uses R raster utilities to read and analize
   outputs of the Distributed Hydrological Model GEOtop
-  (version 1.2225-9 realesed by Stafano Endrizzi)
   \url{www.geotop.org}. It contains functions and methods
   to import maps and other keywords from geotop.inpts file.
   Any information about the GEOtop Distributed Hydrological
@@ -16,19 +15,21 @@
   and \url{http://meteogis.fmach.it/idroclima/ton-toss/}.
   These examples are tested on two simulation cases run
   with GEOtop built 1.225-9 mostly developed by Stefano
-  Endrizzi. Bugs/comments/questions/collaboration of any
-  kind are warmly welcomed.
+  Endrizzi
+  (\url{http://www.geo.uzh.ch/en/units/physical-geography-3g/about-us/staff/stefano-endrizzi}).
+  Bugs/comments/questions/collaboration of any kind are
+  warmly welcomed.
 }
 \details{
   \tabular{ll}{ Package: \tab geotopbricks\cr Type: \tab
-  Package\cr Version: \tab 1.0\cr Date: \tab 2012-11-13\cr
+  Package\cr Version: \tab 1.1\cr Date: \tab 2012-12-04\cr
   License: \tab GPL (>= 2)
 
   \cr LazyLoad: \tab yes\cr Depends:
   zoo,rgdal,methods,stringr,raster,soilwater \cr }
 }
 \note{
-  geotobricks is a on-going project. All criticism,
+  geotobricks is an on-going project. All criticism,
   comments and suggestions are well welcomed.
 
   geotobricks is free software: you can redistribute it
@@ -48,8 +49,9 @@
   \url{http://www.gnu.org/licenses/}.
 }
 \author{
-  Emanuele Cordano \email{emanuele.cordano@gmail.org},
-  Fabio Zottele \email{fabio.zottele@fmach.it}
+  Emanuele Cordano \email{emanuele.cordano@gmail.com},
+  Daniele Andreis \email{daniele.andreis@fmach.it},Fabio
+  Zottele \email{fabio.zottele@fmach.it}
 }
 \references{
   \url{wwww.geotop.org}
