@@ -23,7 +23,7 @@ NULL
 #' @param formatter string value. It is the decimal formatter contained in the file name and used in case the tabular data are referred at several points. Default is \code{"\%04d"} . It is used in case \code{data.frame} is \code{TRUE}. 
 #' @param level integer values. Numbers incating all the identandification numbers of the files containing the requested data frames. Default is 1, correspondig to the decimal formatter \code{"0001"}. See examples. 
 #' @param date_field string value. Default is "Date", otherwise defined by the value of \code{HeaderDateDDMMYYYYhhmmMeteo} geotop keyword. It is used only if the argument \code{data.frame} is \code{TRUE}. If it is \code{NULL} or \code{NA} the function return a list of generic \code{\link{data.frame}} object(s), otherwise \code{link{zoo}} object(s). See the arguments \code{tz} and \code{format} for Date formatting.
-# TO PUT ZOO CONVERTER 
+#' @param isNA numeric value indicating NA in geotop ascii files. Default is -9999.00
 #' 
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
@@ -64,9 +64,9 @@ NULL
 #' level <- 1:nmeteo
 #' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
 #' 
-#' # end set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
+#' # end set time during wich GEOtop simulation provided maps (the script is written for daily frequency")
 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,...) {
 	
 	
 	if (is.null(inpts.frame)) inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath,...)
@@ -80,6 +80,9 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		
 	}
 	len <- str_length(out)
+	
+
+	
 	if (len>0) {
 		
 		if ((str_sub(out,1,1)=='\"') |  (str_sub(out,1,1)=='\''))  out <- str_sub(out,2)
@@ -89,6 +92,12 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	if ((numeric | date) & (is.null(vector_sep))) vector_sep <- "," 
 	
 	if (!is.null(vector_sep)) {
+		if (numeric) {
+			
+			if ((str_sub(out,1,1)=='[') |  (str_sub(out,1,1)=='('))  out <- str_sub(out,2)
+			len <- str_length(out)
+			if ((str_sub(out,len,len)==']') |  (str_sub(out,len,len)==')'))  out <- str_sub(out,end=len-1)
+		}
 		
 		out <- (str_split(out,vector_sep))[[1]]
 	}
@@ -148,7 +157,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 for (i in 1:length(filepath)) {
 			 
 			 temp <- read.table(filepath[i],header=TRUE,sep=",")
-			 
+			 if (is.numeric(isNA) & length(isNA)==1) temp[temp<=isNA] <- NA # added on 6 dec 2012
 			 i_index <- which(names(temp)==date_field)
 			 
 			 if (!is.null(date_field) | !is.na(date_field) | length(i_index)==1 | length(date_field)>0) {

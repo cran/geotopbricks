@@ -9,7 +9,7 @@
     add_wpath = FALSE, wpath = NULL,
     use.read.raster.from.url = TRUE, data.frame = FALSE,
     formatter = "\%04d", level = 1, date_field = "Date",
-    ...)
+    isNA = -9999, ...)
 }
 \arguments{
   \item{keyword}{keyword name}
@@ -101,6 +101,9 @@
   \code{link{zoo}} object(s). See the arguments \code{tz}
   and \code{format} for Date formatting.}
 
+  \item{isNA}{numeric value indicating NA in geotop ascii
+  files. Default is -9999.00}
+
   \item{...}{further arguments of
   \code{\link{declared.geotop.inpts.keywords}}}
 }
@@ -149,6 +152,6 @@ nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wp
 level <- 1:nmeteo
 meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
 
-# end set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
+# end set time during wich GEOtop simulation provided maps (the script is written for daily frequency")
 }
 

@@ -128,3 +128,7 @@ setMethod('brick', signature(x='GeotopRasterBrick'),
 		}
 )
 
+
+
+
+
