@@ -9,7 +9,8 @@
     add_wpath = FALSE, wpath = NULL,
     use.read.raster.from.url = TRUE, data.frame = FALSE,
     formatter = "\%04d", level = 1, date_field = "Date",
-    isNA = -9999, ...)
+    isNA = -9999, matlab.syntax = TRUE,
+    projfile = "geotop.proj", ...)
 }
 \arguments{
   \item{keyword}{keyword name}
@@ -104,6 +105,14 @@
   \item{isNA}{numeric value indicating NA in geotop ascii
   files. Default is -9999.00}
 
+  \item{matlab.syntax}{logical value. Default is
+  \code{FALSE}. If \code{TRUE} a vector is written in a
+  string according to *.m file syntax. Warning: this
+  synstax is not read by GEOtop.}
+
+  \item{projfile}{fileneme of the GEOtop projection file.
+  Default is \code{geotop.proj}.}
+
   \item{...}{further arguments of
   \code{\link{declared.geotop.inpts.keywords}}}
 }
@@ -136,7 +145,9 @@ names(layers) <- paste("L",1:length(layers),sep="")
 # set van genuchten parameters to estimate water volume
 theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath)
 theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath)
-alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",numeric=TRUE,wpath=wpath) # expressed in mm^-1
+alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",
+numeric=TRUE,wpath=wpath) # expressed in mm^-1
+
 nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath)
 
 
@@ -152,6 +163,7 @@ nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wp
 level <- 1:nmeteo
 meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
 
-# end set time during wich GEOtop simulation provided maps (the script is written for daily frequency")
+# end set time during wich GEOtop simulation provided maps
+# (the script is written for daily frequency")
 }
 

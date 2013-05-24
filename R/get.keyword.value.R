@@ -24,7 +24,8 @@ NULL
 #' @param level integer values. Numbers incating all the identandification numbers of the files containing the requested data frames. Default is 1, correspondig to the decimal formatter \code{"0001"}. See examples. 
 #' @param date_field string value. Default is "Date", otherwise defined by the value of \code{HeaderDateDDMMYYYYhhmmMeteo} geotop keyword. It is used only if the argument \code{data.frame} is \code{TRUE}. If it is \code{NULL} or \code{NA} the function return a list of generic \code{\link{data.frame}} object(s), otherwise \code{link{zoo}} object(s). See the arguments \code{tz} and \code{format} for Date formatting.
 #' @param isNA numeric value indicating NA in geotop ascii files. Default is -9999.00
-#' 
+#' @param matlab.syntax logical value. Default is \code{FALSE}. If \code{TRUE} a vector is written in a string according to *.m file syntax. Warning: this synstax is not read by GEOtop. 
+#' @param projfile fileneme of the GEOtop projection file. Default is \code{geotop.proj}.
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
 #' @export 
@@ -48,7 +49,9 @@ NULL
 #' # set van genuchten parameters to estimate water volume 
 #' theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath)
 #' theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath)
-#' alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",numeric=TRUE,wpath=wpath) # expressed in mm^-1
+#' alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",
+#' numeric=TRUE,wpath=wpath) # expressed in mm^-1
+#' 
 #' nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath) 
 #' 
 #' 
@@ -64,9 +67,23 @@ NULL
 #' level <- 1:nmeteo
 #' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
 #' 
-#' # end set time during wich GEOtop simulation provided maps (the script is written for daily frequency")
+#' # end set time during wich GEOtop simulation provided maps 
+#' # (the script is written for daily frequency")
 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",...) {
+
+# Added by the author on Feb 6 2012	
+	
+	if (length(keyword)>1) {
+		out <- NULL
+		
+		out <- lapply(X=keyword,FUN=get.geotop.inpts.keyword.value,inpts.frame=inpts.frame,vector_sep=vector_sep,numeric=numeric,format=format,date=date,tz=tz,raster=raster,file_extension=file_extension,add_wpath=add_wpath,wpath=wpath,use.read.raster.from.url=use.read.raster.from.url,data.frame=data.frame,formatter=formatter,level=level,date_field=date_field,isNA=isNA,matlab.syntax=matlab.syntax,projfile=projfile,...)
+		names(out) <- keyword
+		
+		
+		return(out)
+	}
+	
 	
 	
 	if (is.null(inpts.frame)) inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath,...)
@@ -92,7 +109,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	if ((numeric | date) & (is.null(vector_sep))) vector_sep <- "," 
 	
 	if (!is.null(vector_sep)) {
-		if (numeric) {
+		if (numeric | matlab.syntax) {
 			
 			if ((str_sub(out,1,1)=='[') |  (str_sub(out,1,1)=='('))  out <- str_sub(out,2)
 			len <- str_length(out)
@@ -100,6 +117,11 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		}
 		
 		out <- (str_split(out,vector_sep))[[1]]
+		
+		if (matlab.syntax) { 
+			out <- str_replace_all(out,"\'","")
+			out <- str_replace_all(out,"\"","")
+		}
 	}
 	
 	if (date) {
@@ -123,6 +145,19 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 } else {
 		     out <- raster(x=filepath)
 		}
+		
+		if (!is.null(wpath)) projfile <- paste(wpath,projfile,sep="/")
+		
+		if (file.exists(projfile)) {
+			
+			projection(out) <- readLines(projfile,warn=FALSE)
+			
+		}
+		## ADD projection 
+		
+		
+		
+		
 	} else if (data.frame) {
 		
 		if (file_extension==".asc" | file_extension=="asc") file_extension=".txt"

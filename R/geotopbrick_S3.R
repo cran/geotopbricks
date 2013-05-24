@@ -2,7 +2,6 @@
 # 
 # Author: ecor
 
-### CAMBIRE IN S3!!!!! 
 
 ###############################################################################
 NULL
@@ -32,10 +31,13 @@ NULL
 geotopbrick.default <- function (x,...) {
 	
 	out <- new("GeotopRasterBrick")
-	print("default")
+###	print("default")
 	return(out)
 	
 }
+
+
+NULL
 
 #' @title geotopbrick
 #' @name geotopbrick
@@ -43,10 +45,10 @@ geotopbrick.default <- function (x,...) {
 #'  
 #' @param x a 'zoo' object returned by function \code{\link{pointer.to.maps.xyz.time}} or \code{\link{pointer.to.maps.xy.time}} or a \code{\link{GeotopRasterBrick-class}} object
 #' @param layer layer at which raster maps are imported. If is \code{NULL}, maps ara no-zlayer distributed and \code{zoo} must be returend by \code{\link{pointer.to.maps.xy.time}}
-#' @param timerange two-elememts vector containing the time range at which geotop maps are imported
 #' @param time vector of time instants at which geotop maps are imported
-# @param rows rows of \code{zoo} correspondig to the geotop maps that are imported. By default all rows of \code{zoo} are considered. It is calculated by \code{time} or \code{timerange} if they are not set as \code{NULL}. 
 #' @param crs coordinate system see \code{\link{RasterBrick-class}}
+#' @param timerange two-elememts vector containing the time range at which geotop maps are imported
+#' @param ascpath \code{NULL} object or a \code{"zoo"} S3 object containing the names of ascii maps provided by GEOtop 
 #' @param ... further arguments. 
 #' 
 #' 
@@ -62,8 +64,10 @@ geotopbrick.default <- function (x,...) {
 #' 
 #' @export
 
-geotopbrick.zoo <- function(x,layer=1,timerange=NULL,time=index(x),crs=NULL,...) { 
+geotopbrick.zoo <- function(x,layer=NULL,time=NULL,crs=NULL,timerange=NULL,...) { 
 		
+			if (!is.null(layer)) layer <- 1
+			if (is.null(time)) time <- index(x)
 			if (!is.null(timerange)) time <- index(x)[index(x)>=timerange[1] & index(x)<=timerange[2]] 
 			
 			out <- new("GeotopRasterBrick")
@@ -76,6 +80,127 @@ geotopbrick.zoo <- function(x,layer=1,timerange=NULL,time=index(x),crs=NULL,...)
 	
 			return(out)
 		}
+
+
+NULL 
+
+
+#' 
+#' @rdname geotopbrick
+#' 
+
+
+#' @method geotopbrick RasterLayer
+#' @S3method geotopbrick RasterLayer
+#' @aliases geotopbrick.RasterLayer
+#' 
+#' @export
+
+geotopbrick.RasterLayer <- function(x,layer=NULL,time=NULL,ascpath=zoo(NULL),...) {
+	
+	if (is.null(layer)) layer <- paste("L",1:nlayers(x),sep="")
+	if (is.null(time))  time <- as.POSIXlt(character(0))
+	
+	out <- new("GeotopRasterBrick")
+	out@brick <- brick(x,...)
+	out@ascpath <- ascpath
+	
+	
+	out@layer <- layer
+	
+	
+	out@index <- time
+	
+	return(out)
+	
+}
+
+
+NULL
+
+
+
+#' 
+#' @rdname geotopbrick
+#' 
+
+
+#' @method geotopbrick RasterBrick
+#' @S3method geotopbrick RasterBrick
+#' @aliases geotopbrick.RasterBrick
+#' 
+#' @export
+
+geotopbrick.RasterBrick <- function(x,layer=NULL,time=NULL,ascpath=zoo(NULL),...) {
+	
+	if (is.null(layer)) layer <- paste("L",1:nlayers(x),sep="")
+	if (is.null(time))  time <- as.POSIXlt(character(0))
+	
+	out <- new("GeotopRasterBrick")
+	out@brick <- brick(x,...)
+	out@ascpath <- ascpath
+	
+	
+	out@layer <- layer
+	
+	
+	out@index <- time
+	
+	return(out)
+	
+}
+
+
+NULL
+
+
+
+#' 
+#' @rdname geotopbrick
+#' 
+#' @method geotopbrick GeotopRasterBrick
+#' @S3method geotopbrick GeotopRasterBrick
+#' 
+#' @aliases geotopbrick.GeotopRasterBrick
+#' @export
+#' 
+#' 
+
+
+geotopbrick.GeotopRasterBrick <- function(x,layer=NULL,time=NULL,crs=NULL,timerange=NULL,ascpath=NULL,...) {
+	
+	out <- new("GeotopRasterBrick")
+	out@brick <- x@brick
+	if (is.null(ascpath)) {
+		out@ascpath <- x@ascpath
+		
+	} else {
+		
+		out@ascpath <- ascpath
+		
+	}	
+	if (is.null(layer)) { 
+	
+		out@layer <- x@layer
+	} else { 
+	
+		out@layer <- layer
+	}
+	
+	if (is.null(time)) { 
+		
+		out@time <- x@time
+	
+	} else {
+		
+	    out@time <- time
+	}
+	
+	
+	return(out)
+	
+}
+
 
 
 

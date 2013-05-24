@@ -3,7 +3,8 @@
 \title{This function uses  \code{\link{writeRaster}} to create .asc maps which can be read by GEOtop}
 \usage{
   writeRasterxGEOtop(x, filename, overwrite = TRUE,
-    NAflag = -9999, use.decimal.formatter = FALSE, ...)
+    NAflag = -9999, use.decimal.formatter = FALSE,
+    start.from.zero = FALSE, ...)
 }
 \arguments{
   \item{x}{a Raster object, see \code{\link{writeRaster}}.
@@ -29,6 +30,10 @@
   (e.g. \code{"\%04d"}, see
   \code{\link{brick.decimal.formatter}}). Otherwise, if
   \code{filename} is considered as a vector string.}
+
+  \item{start.from.zero}{logical value. Default is
+  \code{FALSE}. If \code{TRUE} the formatter starts from
+  \code{0000}, otherwise it starts from \code{0001}.}
 
   \item{...}{further aruments of \code{\link{writeRaster}}}
 }

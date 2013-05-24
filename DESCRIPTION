@@ -14,22 +14,27 @@ Description: geotopbricks: Analyzes raster maps and other information
         run with GEOtop built 1.225-9 mostly developed by Stefano
         Endrizzi. Bugs/comments/questions/collaboration of any kind are
         warmly welcomed.
-Version: 1.2
-Date: 2012-12-25
-Depends: R (>= 2.10),zoo,rgdal,methods,stringr,raster,soilwater
+Version: 1.3.3
+Date: 2013-5-24
+Depends: R (>= 2.10),zoo,methods,stringr,raster,soilwater
+Suggests: rgdal
 URL:
-        www.geotop.org,http://meteogis.fmach.it/wiki/index.php/Pagina_principale,http://meteogis.fmach.it/wiki/index.php/Ecor,http://cri.fmach.eu/Research/Sustainable-Agro-Ecosystems-and-Bioresources/Dynamics-in-the-agro-ecosystems/people/Emanuele-Cordano
+        http://onlinelibrary.wiley.com/doi/10.1002/wrcr.20072/abstract,www.geotop.org,http://meteogis.fmach.it/wiki/index.php/Pagina_principale,http://meteogis.fmach.it/wiki/index.php/Ecor,http://cri.fmach.eu/Research/Sustainable-Agro-Ecosystems-and-Bioresources/Dynamics-in-the-agro-ecosystems/people/Emanuele-Cordano
 Collate: 'AAAClasses.R' 'aggregate.brick.at.depth.R' 'bar.color.R'
         'bar.color.raster.R' 'brick.decimal.formatter.R'
         'brick.GeotopRasterBrick.R' 'create.geotop.inpts.keywords.R'
         'create.geotop.meteo.file.R' 'declared.geotop.inpts.keywords.R'
         'geotopbrick_S3.R' 'geotopbricks-package.R'
-        'get.keyword.value.R' 'getvalues.brick.at.depth.R'
-        'KML.GeotopRasterBrick.R' 'max_value.R' 'min_value.R'
-        'ops.GeotopRasterBrick.R' 'plot.GeotopRasterBrick.R'
-        'pointer.to.2Dmaps.R' 'read.ascii.vectorizrerd.brick.R'
-        'read.raster.from.asc.url.R' 'write.ascii.vectorizrerd.brick.R'
-        'writeRasterxgeotop.R'
-Packaged: 2012-12-25 23:10:29 UTC; ecor
+        'get.keyword.value.R' 'get.recovery.state.R'
+        'getvalues.brick.at.depth.R' 'KML.GeotopRasterBrick.R'
+        'max_value.R' 'min_value.R' 'ops.GeotopRasterBrick.R'
+        'plot.GeotopRasterBrick.R' 'pointer.to.2Dmaps.R'
+        'read.ascii.vectorizrerd.brick.R' 'read.raster.from.asc.url.R'
+        'read.vectorized.geotop.recovery.R' 'set.recovery.state.R'
+        'write.ascii.vectorizrerd.brick.R'
+        'write.vectorized.geotop.recovery.R'
+        'write.vectorized.variable.in.string.R' 'writeRasterxgeotop.R'
+Packaged: 2013-05-27 06:43:31 UTC; ecor
+NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2012-12-26 09:22:37
+Date/Publication: 2013-05-27 09:01:51

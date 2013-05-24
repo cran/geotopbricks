@@ -36,22 +36,24 @@
   date) in an ascii format like \code{'geotop.inpts'} file.
 }
 \note{
-  Add Quote if necessary
+  Add Quote if necessary. This function is NOT mantained
+  and will be DEPRECATED.
 }
 \examples{
-library(geotopbricks)
-library(raster)
-file <- system.file("doc/examples/snowthickness",package="geotopbricks")
-file <- paste(file,"SnowThickness0000L\%04d.asc",sep="/")
-b <- brick.decimal.formatter(file=file,nlayers=15)
-nlayers(b)
-names(b)
-file <- "snow.txt"
-btext <- write.ascii.vectorized.brick(b,Date="1/1/2009",file="snow.txt")
-# The printed object
- str(btext)
-bb <- read.ascii.vectorized.brick(file = file)
-bf <- abs(as.matrix(bb[[1]]-b[[1]]))<.Machine$double.eps^0.5
+## Not Run
+## library(geotopbricks)
+## library(raster)
+## file <- system.file("doc/examples/snowthickness",package="geotopbricks")
+## file <- paste(file,"SnowThickness0000L\%04d.asc",sep="/")
+## b <- brick.decimal.formatter(file=file,nlayers=15)
+## nlayers(b)
+## names(b)
+## file <- "snow.txt"
+## btext <- write.ascii.vectorized.brick(b,Date="1/1/2009",file="snow.txt")
+## The printed object
+## str(btext)
+## bb <- read.ascii.vectorized.brick(file = file)
+## bf <- abs(as.matrix(bb[[1]]-b[[1]]))<.Machine$double.eps^0.5
 }
 \seealso{
   \code{\link{read.ascii.vectorized.brick}}

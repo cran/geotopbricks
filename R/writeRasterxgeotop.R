@@ -10,6 +10,7 @@
 #' @param overwrite logical. Default is \code{TRUE}, see \code{\link{writeRaster}}. 
 #' @param NAflag numeric. Dafauli is -9999, see \code{\link{writeRaster}}.
 #' @param use.decimal.formatter logical value. Default is \code{FALSE}. If it is \code{TRUE} or \code{x} is a \code{\link{RasterBrick-class}} object with \code{nlayers(x)!=length(filename)} , \code{filename} is considered as one string containing a decimal formatter (e.g. \code{"\%04d"}, see \code{\link{brick.decimal.formatter}}). Otherwise, if \code{filename} is considered as a vector string. 
+#' @param start.from.zero logical value. Default is \code{FALSE}. If \code{TRUE} the formatter starts from \code{0000}, otherwise it starts from \code{0001}. 
 #' @param ... further aruments of \code{\link{writeRaster}}
 #' 
 #' @export
@@ -17,23 +18,28 @@
 #' 
 
 
-writeRasterxGEOtop <- function(x,filename,overwrite=TRUE,NAflag=-9999,use.decimal.formatter=FALSE,...) {
+writeRasterxGEOtop <- function(x,filename,overwrite=TRUE,NAflag=-9999.0,use.decimal.formatter=FALSE,start.from.zero=FALSE,...) {
 
-	
+options(scipen=99999) # It remove cientific notation	
  ## add write "brick" modality. 
 if (class(x)=="RasterBrick") {
 
 	if ((length(filename)!=nlayers(x)) | (use.decimal.formatter) ) {
 		
+		first <- 1 
+		if (start.from.zero) first <- 0 # if star.from.zero==TRUE the formatter writing starts from "L0000","L0001",....
 		filename <- array(filename[1],nlayers(x))
 	
 		for (i in 1:nlayers(x)) {
 		
-			filename[i] <- sprintf(filename[i],i)
+			filename[i] <- sprintf(filename[i],i+first-1) 
 			
 		}
 		
 	}
+	
+	if (nlayers(x)==1) x <- stack(x) # This is because x=subset(x,i) does not return a "RasterLayer" if x has only one layer.
+	
 	for (i in 1:nlayers(x)) {
 		
 		writeRasterxGEOtop(x=subset(x,i),filename=filename[i],overwrite=overwrite,NAflag=NAflag,...)

@@ -5,7 +5,7 @@
   brick.decimal.formatter(file = NULL, file_prefix,
     formatter = "\%04d", file_extension = ".asc",
     nlayers = 10, use.read.raster.from.url = FALSE,
-    crs = NULL)
+    crs = NULL, start.from.zero = FALSE)
 }
 \arguments{
   \item{file}{fileneme of the 'brick' files containing the
@@ -33,6 +33,10 @@
   remote and are 'http' addresses. In this cases the
   stand-alone method \code{raster(x)} does not always work
   and \code{use.read.raster.from.url} is necessary.}
+
+  \item{start.from.zero}{logical value. Default is
+  \code{FALSE}. If \code{TRUE} the formatter starts from
+  \code{0000}, otherwise it starts from \code{0001}.}
 
   \item{crs}{coordinate system see
   \code{\link{RasterBrick-class}},\code{\link{brick}},

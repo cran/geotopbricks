@@ -2,8 +2,7 @@
 \alias{read.raster.from.url}
 \title{It imports a 'RasterLayer' object in Escri-Asci format from a URL 'http://....<FILENAME>.asc}
 \usage{
-  read.raster.from.url(x = "http://meteogis.fmach.it/idroclima/panola13_run2xC_test3/slope.asc",
-    header_nrow = 6, ...)
+  read.raster.from.url(x, header_nrow = 6, ...)
 }
 \arguments{
   \item{x}{the charcater string containing the URL address}

@@ -16,6 +16,7 @@ NULL
 #' @param file_extension strinf value. Default is \code{".asc"}
 #' @param nlayers number of layers
 #' @param use.read.raster.from.url logical value. Default is \code{FALSE}. (this is recommended in this function). If \code{TRUE} the RasterLayer are read with \code{\link{read.raster.from.url}}, istead of \code{\link{raster}} (otherwise). It is recomended in case the files whose paths are contained in \code{x} are remote and are 'http' addresses. In this cases the stand-alone method \code{raster(x)} does not always work and \code{use.read.raster.from.url} is necessary.  
+#' @param start.from.zero logical value. Default is \code{FALSE}. If \code{TRUE} the formatter starts from \code{0000}, otherwise it starts from \code{0001}.  
 #' @param crs coordinate system see \code{\link{RasterBrick-class}},\code{\link{brick}}, Default is \code{NULL}.
 #' 
 #' 
@@ -27,7 +28,6 @@ NULL
 #' @examples
 #' library(geotopbricks)
 #' library(raster)
-# b <- brick(system.file("external/rlogo.grd", package="raster"))
 #' file <- system.file("doc/examples/snowthickness",package="geotopbricks")
 #' file <- paste(file,"SnowThickness0000L%04d.asc",sep="/")
 #' b <- brick.decimal.formatter(file=file,nlayers=15)
@@ -43,7 +43,7 @@ NULL
 
 
 
-brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_extension=".asc",nlayers=10,use.read.raster.from.url=FALSE,crs=NULL) {
+brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_extension=".asc",nlayers=10,use.read.raster.from.url=FALSE,crs=NULL,start.from.zero=FALSE) {
 	
 	b <- NULL
 	if (!is.null(file) & !is.na(file)) {
@@ -54,11 +54,15 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 		
 	}
 	
-	formatter <- rep(formatter,nlayers)
-	for (i in 1:nlayers) {
-		
-		formatter[i] <- sprintf(formatter[i],i)
-		
+	
+	
+	startlayer <- 1  # startlayer id 1 by default but can be 0 optionally!!
+	
+	if (start.from.zero) startlayer <- 0
+	formatter <- rep(formatter,nlayers-startlayer+1)
+	for (i in startlayer:nlayers) {
+		is <- i-startlayer+1
+		formatter[is] <- sprintf(formatter[is],i)		
 	}
 	
 	
@@ -73,6 +77,7 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 			filepath <- paste(filepath,file_extension,sep=".") 
 		}
 	}
+	
 	
 	list <- as.list(array(NA,length(filepath)))
 	names(list) <- filepath 
@@ -97,7 +102,9 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 		#if (!file.exists(as.character(x[i]))) print(paste("Warning Missing File:",as.character(x[i]),sep=" "))
 		# read.raster.from.url
 		x <- as.character(filepath[i])
-	
+		###print("list")
+		####print(x)
+		#####print(file.exists(x))
 		if (file.exists(x)) { 
 			list[[i]] <- raster(x=x)
 		} else if (i>1) {

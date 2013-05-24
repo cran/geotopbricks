@@ -13,7 +13,7 @@ NULL
 ###,\url{http://en.wikipedia.org/wiki/Esri_grid}
 #' 
 
-read.raster.from.url <- function(x="http://meteogis.fmach.it/idroclima/panola13_run2xC_test3/slope.asc",header_nrow=6,...) {
+read.raster.from.url <- function(x,header_nrow=6,...) {
 	
 #	out <- NULL
 	
