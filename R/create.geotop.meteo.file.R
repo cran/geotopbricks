@@ -65,16 +65,17 @@ create.geotop.meteo.files <- function(x,format="%d/%m/%Y %H:%M",file_prefix="met
 	for (i in 1:length(x)) { 
 				
 #		x[[i]] is a 'zoo' object 
-		filename <- sprintf(filename,i) 
+		filenamex <- sprintf(filename,i) 
 		y <- x[[i]]
 		names <- names(y)
 		y <- cbind(index(y),as.data.frame(y))
 		names(y) <- c(date_field,names)
 		
 		y[,date_field] <- as.character(y[,date_field],format=format)
+
 		
 		
-		write.table(x=y,file=filename,quote=quote,sep=sep,na=na,row.names=row.names,col.names=col.names,...)
+		write.table(x=y,file=filenamex,quote=quote,sep=sep,na=na,row.names=row.names,col.names=col.names,...)
 	} 
 	
 		

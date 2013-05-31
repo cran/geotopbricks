@@ -1,4 +1,4 @@
-4803acf03a35d0cb287c004af717c717 *DESCRIPTION
+adc81b8e39742b839da439bc425267d2 *DESCRIPTION
 c860363daefe6aefbce3d4c80e8631d9 *NAMESPACE
 ecf84273956605266e4bf6e31435315b *R/AAAClasses.R
 f78a30809ffab7f748efaf325e2dad91 *R/KML.GeotopRasterBrick.R
@@ -8,10 +8,10 @@ f0971496faabf07b9e65e455b3d9b3eb *R/bar.color.R
 73166063e5349b1fd29a9e5bf38c1fda *R/brick.GeotopRasterBrick.R
 ffbc480b7af4fd49797f73439b9b3f09 *R/brick.decimal.formatter.R
 4eb41a30c64e38a94287e723919c9fa0 *R/create.geotop.inpts.keywords.R
-34406495646b2ed70d95c045943c859b *R/create.geotop.meteo.file.R
+263ba65d610c4845d64ebf93cca9db92 *R/create.geotop.meteo.file.R
 aad196a562c6a67a6b50a84771ff3767 *R/declared.geotop.inpts.keywords.R
 f7a9fd3d1febe22b6a45ed23f6c0dab1 *R/geotopbrick_S3.R
-da26397512045181dd2a0861b7c483f1 *R/geotopbricks-package.R
+5f7e98092526df6861f7774faa57f9af *R/geotopbricks-package.R
 a6a53cad6b7c75a6da14c815ef0340b1 *R/get.keyword.value.R
 ddcdcddb3f3d0ad2b274630052473774 *R/get.recovery.state.R
 479e32ccbb4cb45a288b772b50c34154 *R/getvalues.brick.at.depth.R
@@ -169,7 +169,7 @@ ec925c19b035242bff49ac2fc6112f37 *man/create.geotop.inpts.keyword.Rd
 b9d46fcb11a1b4f55ae25e3d72df5a91 *man/create.geotop.meteo.files.Rd
 c9b3a2b2c43fc54ac680711ea6cdc1d0 *man/declared.geotop.inpts.keywords.Rd
 e5eea3b88c92551e6b945415dc7a16e1 *man/geotopbrick.Rd
-57fa5c43d8ab7476ff61af7d83fea570 *man/geotopbricks-package.Rd
+8bb5f4d0d0e9c013d1880313540e9993 *man/geotopbricks-package.Rd
 f7fa8181b036bd401c401525ea576ede *man/get.geotop.inpts.keyword.value.Rd
 86d9d9dabdd948b4a2815cb405148d40 *man/get.geotop.recovery.state.Rd
 bba08f782428201cb6ca3da8553046a9 *man/getvalues.brick.at.depth.Rd
