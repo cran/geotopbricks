@@ -10,7 +10,8 @@
     use.read.raster.from.url = TRUE, data.frame = FALSE,
     formatter = "\%04d", level = 1, date_field = "Date",
     isNA = -9999, matlab.syntax = TRUE,
-    projfile = "geotop.proj", ...)
+    projfile = "geotop.proj", start_date = NULL,
+    end_date = NULL, ...)
 }
 \arguments{
   \item{keyword}{keyword name}
@@ -113,6 +114,12 @@
   \item{projfile}{fileneme of the GEOtop projection file.
   Default is \code{geotop.proj}.}
 
+  \item{start_date,end_date}{null objects or dates in
+  \code{POSIXlt} format between which the variables are
+  returned. It is enabled in case that \code{date_field} is
+  not \code{NULL} or \code{NA} and \code{data.frame} is
+  \code{TRUE}. Default is \code{NULL}.}
+
   \item{...}{further arguments of
   \code{\link{declared.geotop.inpts.keywords}}}
 }
@@ -161,7 +168,8 @@ end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",date=TRUE,wpath=wpat
 
 nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
 level <- 1:nmeteo
-meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
+meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+         level=level,start_date=start,end_date=end)
 
 # end set time during wich GEOtop simulation provided maps
 # (the script is written for daily frequency")

@@ -26,6 +26,7 @@ NULL
 #' @param isNA numeric value indicating NA in geotop ascii files. Default is -9999.00
 #' @param matlab.syntax logical value. Default is \code{FALSE}. If \code{TRUE} a vector is written in a string according to *.m file syntax. Warning: this synstax is not read by GEOtop. 
 #' @param projfile fileneme of the GEOtop projection file. Default is \code{geotop.proj}.
+#' @param start_date,end_date null objects or dates in \code{POSIXlt} format between which the variables are returned. It is enabled in case that \code{date_field} is not \code{NULL} or \code{NA} and \code{data.frame} is \code{TRUE}. Default is \code{NULL}.
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
 #' @export 
@@ -65,12 +66,13 @@ NULL
 #' 
 #' nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
 #' level <- 1:nmeteo
-#' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,level=level)
+#' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+#'          level=level,start_date=start,end_date=end)
 #' 
 #' # end set time during wich GEOtop simulation provided maps 
 #' # (the script is written for daily frequency")
 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,...) {
 
 # Added by the author on Feb 6 2012	
 	
@@ -202,8 +204,17 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 				 index <- as.POSIXlt(index,format=format,tz=tz)
 				 temp <- as.zoo(temp)
 				 index(temp) <- index
+				 # insert sart date & date
+				 if (!is.null(start_date) & !is.null(end_date)) { 
+					 
+					 #	print(index(temp)>=start_date & index(temp)<=end_date)
+					 temp <- temp[index(temp)>=start_date & index(temp)<=end_date,]
+					 
+				 }
 				 
 			 }
+			 
+			
 			 
 			 out[[i]] <- temp
 		 }
