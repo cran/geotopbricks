@@ -39,7 +39,7 @@
 library(geotopbricks)
 
 #Simulation working path
-wpath <- 'http://meteogis.fmach.it/idroclima/panola13_run2xC_test3'
+wpath <- 'http://www.boussinesq.org/geotopbricks/simulations/panola13_run2xC_test3'
 df <- declared.geotop.inpts.keywords(wpath=wpath)
 create.geotop.inpts.keyword(df=df)
 }

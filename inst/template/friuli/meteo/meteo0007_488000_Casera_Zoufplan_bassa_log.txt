@@ -1,3 +1,0 @@
-statID 488000 AirT missing: it will be considered -1
-start date 2012-10-12 01:00:00 end date 2013-01-25 07:00:00 sum HNd 211.222222222222 sum HNh 315.5
-sum Iprec 361.59 max Iprec 11.55

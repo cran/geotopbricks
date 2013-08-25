@@ -1,3 +1,0 @@
-statID 501400 Wind missing: it will be considered 1 m s^-1
-start date 2012-10-12 01:00:00 end date 2013-01-25 07:00:00 sum HNd 34.5 sum HNh 72.5
-sum Iprec 67.32 max Iprec 7.72

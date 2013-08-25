@@ -48,6 +48,8 @@ NULL
 #' 
 #' @return a data frame with two columns: \code{Keyword} and \code{Value}
 #' 
+#' @import stringr 
+
 #' @seealso \code{\link{get.geotop.inpts.keyword.value}}
 #' 
 

@@ -16,7 +16,7 @@ NULL
 #' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"A"}.
 #' @param raster logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link{Raster-class}} object built with \code{\link{raster}} method. 
 #' @param file_extension Extension to be added to the keyword if keyword is a file name. Default is \code{".asc"}
-#' @param wpath working directory containing GEOtop files (included the inpts file), see \code{\link{declared.geotop.inpts.keywords}}. It is mandatory if \code{raster} is \code{TRUE}. 
+#' @param wpath working directory containing GEOtop files (included the inpts file). It is mandatory if \code{raster} is \code{TRUE}. See \code{\link{declared.geotop.inpts.keywords}}.
 #' @param add_wpath logical value. Default is \code{FALSE}. If \code{TRUE}, the \code{wpath} string is attached to the keyword string value. It is automatically set \code{TRUE} if \code{raster} is \code{TRUE}.
 #' @param use.read.raster.from.url logical value. Default is \code{TRUE}. If \code{TRUE} the RasterLayer are read with \code{\link{read.raster.from.url}}, istead of \code{\link{raster}} (otherwise). It is recomended in case the files whose paths are contained in \code{x} are remote and are 'http' addresses. In this cases the stand-alone method \code{raster(x)} does not always work and \code{use.read.raster.from.url} is necessary.  
 #' @param data.frame logical value. It is an option for tabular data. If \code{TRUE} function returns direclty a data frame  or a list of  data frames as \code{\link{data.frame}} or \code{\link{zoo}} objects imported from the keyword-related files  using \code{\link{read.table}} function. In this case the argument \code{wpath} (see \code{\link{declared.geotop.inpts.keywords}}) is mandatory. Default is \code{FALSE}.
@@ -33,12 +33,16 @@ NULL
 #' 
 #' @note If \code{inpts.frame} is \code{NULL}, \code{inpts.frame} will be obtained by calling the function \code{\link{declared.geotop.inpts.keywords}} with \code{...} arguments.
 #' @return the keyword value 
+#' @import stringr 
+#' @import zoo
+#' @examples
 #' 
-#' @examples 
+# library(stringr)  
 #' library(geotopbricks)
 #' 
 #' #Simulation working path
-#' wpath <- 'http://meteogis.fmach.it/idroclima/panola13_run2xC_test3'
+#' wpath <- 'http://www.boussinesq.org/geotopbricks/simulations/panola13_run2xC_test3'
+ ###  wpath <- 'http://meteogis.fmach.it/idroclima//panola13_run2xC_test3'
 #' prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath)
 #' 
 #' slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath) 
@@ -47,7 +51,7 @@ NULL
 #' layers <- get.geotop.inpts.keyword.value("SoilLayerThicknesses",numeric=TRUE,wpath=wpath)
 #' names(layers) <- paste("L",1:length(layers),sep="")
 #' 
-#' # set van genuchten parameters to estimate water volume 
+#' ##### set van genuchten parameters to estimate water volume 
 #' theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath)
 #' theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath)
 #' alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",
@@ -56,21 +60,25 @@ NULL
 #' nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath) 
 #' 
 #' 
-#' # end set van genuchten parameters to estimate water volume
+#' ##### end set van genuchten parameters to estimate water volume
 #' 
 #' 
-#' # set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
+#' ##### set meteo data
 #' 
 #' start <-  get.geotop.inpts.keyword.value("InitDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A") 
 #' end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A") 
 #' 
 #' nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
 #' level <- 1:nmeteo
-#' meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
-#'          level=level,start_date=start,end_date=end)
 #' 
-#' # end set time during wich GEOtop simulation provided maps 
-#' # (the script is written for daily frequency")
+#' # Not Run: uncomment the following lines to calculate "meteo"
+#' # meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+#' #         level=level,start_date=start,end_date=end)
+#' #
+#' 
+#' ##### end set meteo data
+#' 
+#' 
 
 get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,...) {
 
@@ -193,11 +201,17 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 
 		 for (i in 1:length(filepath)) {
 			 
+			 if (is.null(date_field)) date_field <- NA 
+			 
 			 temp <- read.table(filepath[i],header=TRUE,sep=",")
 			 if (is.numeric(isNA) & length(isNA)==1) temp[temp<=isNA] <- NA # added on 6 dec 2012
 			 i_index <- which(names(temp)==date_field)
-			 
-			 if (!is.null(date_field) | !is.na(date_field) | length(i_index)==1 | length(date_field)>0) {
+			
+		###	 print(!is.null(date_field)) 
+		###	 print(!is.na(date_field))
+		###	 print(length(i_index)==1)
+		###	 print(length(date_field)>0)
+			 if (!is.null(date_field) & !is.na(date_field) & length(i_index)==1 & length(date_field)>0) {
 				
 				 index <- temp[,i_index]
 				 temp<- temp[,-i_index]

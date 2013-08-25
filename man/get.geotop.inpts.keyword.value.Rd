@@ -54,9 +54,9 @@
   \code{".asc"}}
 
   \item{wpath}{working directory containing GEOtop files
-  (included the inpts file), see
-  \code{\link{declared.geotop.inpts.keywords}}. It is
-  mandatory if \code{raster} is \code{TRUE}.}
+  (included the inpts file). It is mandatory if
+  \code{raster} is \code{TRUE}. See
+  \code{\link{declared.geotop.inpts.keywords}}.}
 
   \item{add_wpath}{logical value. Default is \code{FALSE}.
   If \code{TRUE}, the \code{wpath} string is attached to
@@ -140,7 +140,7 @@
 library(geotopbricks)
 
 #Simulation working path
-wpath <- 'http://meteogis.fmach.it/idroclima/panola13_run2xC_test3'
+wpath <- 'http://www.boussinesq.org/geotopbricks/simulations/panola13_run2xC_test3'
 prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath)
 
 slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath)
@@ -149,7 +149,7 @@ bedrock_depth <- get.geotop.inpts.keyword.value("BedrockDepthMapFile",raster=TRU
 layers <- get.geotop.inpts.keyword.value("SoilLayerThicknesses",numeric=TRUE,wpath=wpath)
 names(layers) <- paste("L",1:length(layers),sep="")
 
-# set van genuchten parameters to estimate water volume
+##### set van genuchten parameters to estimate water volume
 theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath)
 theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath)
 alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",
@@ -158,20 +158,22 @@ numeric=TRUE,wpath=wpath) # expressed in mm^-1
 nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath)
 
 
-# end set van genuchten parameters to estimate water volume
+##### end set van genuchten parameters to estimate water volume
 
 
-# set time during wich GEEOtop simulation provided maps (the script is written for daily frequency")
+##### set meteo data
 
 start <-  get.geotop.inpts.keyword.value("InitDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A")
 end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",date=TRUE,wpath=wpath,tz="A")
 
 nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",numeric=TRUE,wpath=wpath)
 level <- 1:nmeteo
-meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
-         level=level,start_date=start,end_date=end)
 
-# end set time during wich GEOtop simulation provided maps
-# (the script is written for daily frequency")
+# Not Run: uncomment the following lines to calculate "meteo"
+# meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+#         level=level,start_date=start,end_date=end)
+#
+
+##### end set meteo data
 }
 

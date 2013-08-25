@@ -17,8 +17,8 @@
 #' \tabular{ll}{
 #' Package: \tab geotopbricks\cr
 #' Type: \tab Package\cr
-#' Version: \tab 1.3.4\cr
-#' Date: \tab   2013-06-06\cr
+#' Version: \tab 1.3.5\cr
+#' Date: \tab   2013-08-25\cr
 #' License: \tab GPL (>= 2)
 #'  
 
@@ -38,7 +38,7 @@
 #' @aliases geotobricks
 #' @docType package
 #' @title geotopbricks: Analyzes raster maps as input/output files from the Hydrological Distributed Model GEOtop
-#' @author Emanuele Cordano \email{emanuele.cordano@@gmail.com}, Daniele Andreis \email{daniele.andreis@@fmach.it},Fabio Zottele \email{fabio.zottele@@fmach.it}
+#' @author Emanuele Cordano \email{emanuele.cordano@@gmail.com}, Daniele Andreis, Fabio Zottele.
 #' @references \url{wwww.geotop.org}
 #' @note geotobricks is an on-going project. All criticism, comments and suggestions are well welcomed.
 #' 

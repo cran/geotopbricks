@@ -133,11 +133,12 @@ NULL
 
 geotopbrick.RasterBrick <- function(x,layer=NULL,time=NULL,ascpath=zoo(NULL),...) {
 	
+	if (is.null(layer)) layer <- names(x)
 	if (is.null(layer)) layer <- paste("L",1:nlayers(x),sep="")
 	if (is.null(time))  time <- as.POSIXlt(character(0))
 	
 	out <- new("GeotopRasterBrick")
-	out@brick <- brick(x,...)
+	out@brick <- x   ###brick(x,...)
 	out@ascpath <- ascpath
 	
 	

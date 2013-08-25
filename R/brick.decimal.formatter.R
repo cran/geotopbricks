@@ -30,7 +30,9 @@ NULL
 #' library(raster)
 #' file <- system.file("doc/examples/snowthickness",package="geotopbricks")
 #' file <- paste(file,"SnowThickness0000L%04d.asc",sep="/")
-#' b <- brick.decimal.formatter(file=file,nlayers=15)
+#' # nlayers=15
+#' nlayers <- 6 ## Only 6 layers are read to minimize the elapsed time of the example!!
+#' b <- brick.decimal.formatter(file=file,nlayers=nlayers)
 #' nlayers(b)
 #' names(b)
 
@@ -83,7 +85,7 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 	names(list) <- filepath 
 	
 	if (use.read.raster.from.url) {
-	print("Warning: the option \'use.read.raster.from.url\' is not completey implented!! Change this option if possible!")
+	    ####print("Warning: the option \'use.read.raster.from.url\' is not completey implemented!! Change this option if possible!")
 	for (i in 1:length(list)) {
 		
 		
@@ -93,7 +95,7 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 		list[[i]] <- read.raster.from.url(x=as.character(filepath[i]))
 		
 		
-	}
+		}
 	
 	} else {
 	for (i in 1:length(list)) {
@@ -120,7 +122,7 @@ brick.decimal.formatter <- function(file=NULL,file_prefix,formatter="%04d",file_
 	b <- brick(list)
 
 	if (!is.null(crs)) {
-	projection(b) <- crs
+		projection(b) <- crs
 	}
 	return(b)
 }

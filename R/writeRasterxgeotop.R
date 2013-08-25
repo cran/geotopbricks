@@ -11,17 +11,34 @@
 #' @param NAflag numeric. Dafauli is -9999, see \code{\link{writeRaster}}.
 #' @param use.decimal.formatter logical value. Default is \code{FALSE}. If it is \code{TRUE} or \code{x} is a \code{\link{RasterBrick-class}} object with \code{nlayers(x)!=length(filename)} , \code{filename} is considered as one string containing a decimal formatter (e.g. \code{"\%04d"}, see \code{\link{brick.decimal.formatter}}). Otherwise, if \code{filename} is considered as a vector string. 
 #' @param start.from.zero logical value. Default is \code{FALSE}. If \code{TRUE} the formatter starts from \code{0000}, otherwise it starts from \code{0001}. 
-#' @param ... further aruments of \code{\link{writeRaster}}
-#' 
+#' @param keyword geotop keyword to be used to extract the raster file name from \code{geotop.inpts} file. This is enabled if \code{filename} is equal to \code{NULL}.
+#' @param wpath simulation folder containing \code{geotop.inpts} file.
+#' @param suffix.ext charachter string to be added to the \code{keyword} value,e.g. possible suffix and extension of the raster file name. Default is \code{".asc"}.
+#' @param ... further arguments of \code{\link{get.geotop.inpts.keyword.value}} or  \code{\link{writeRaster}}
+#'  
 #' @export
-#' @note It makes use of \code{\link{system}} functons 
+#' @note It makes use of \code{\link{system}} functons. It uses \code{*.asc} format for raster files. 
+#'  In case the file name \code{filename} is missing and then \code{NULL}, it must be imported by the simulation \code{geotop.inpts} file.
+#' 
+#' 
+#' 
 #' 
 
 
-writeRasterxGEOtop <- function(x,filename,overwrite=TRUE,NAflag=-9999.0,use.decimal.formatter=FALSE,start.from.zero=FALSE,...) {
 
+writeRasterxGEOtop <- function(x,filename=NULL,overwrite=TRUE,NAflag=-9999.0,use.decimal.formatter=FALSE,start.from.zero=FALSE,keyword,wpath,suffix.ext=".asc",...) {
+
+	
 options(scipen=99999) # It remove cientific notation	
  ## add write "brick" modality. 
+ 
+ if (is.null(filename)) {
+	 
+	 filename <- get.geotop.inpts.keyword.value(keyword,wpath=wpath,add_wpath=TRUE,...)
+	 filename <- paste(filename,suffix.ext,sep="")
+	 
+ }
+ 
 if (class(x)=="RasterBrick") {
 
 	if ((length(filename)!=nlayers(x)) | (use.decimal.formatter) ) {

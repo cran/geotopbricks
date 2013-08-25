@@ -26,7 +26,12 @@ NULL
 #' @return a \code{list} object containining all recovery raster maps. 
 #' 
 #' @note This function has been used with the built 1.225-9 of GEOtop . 
-#' @seealso \code{\link{brick.decimal.formatter}},\code{\link{raster}},\code{\link{set.geotop.recovery.state}},\code{\link{write.vectorized.geotop.recovery}},\code{\link{read.vectorized.geotop.recovery}}
+#' @seealso \code{\link{brick.decimal.formatter}},
+#' 
+#' \code{\link{raster}},\code{\link{set.geotop.recovery.state}},
+#' 
+#' \code{\link{write.vectorized.geotop.recovery}},\code{\link{read.vectorized.geotop.recovery}}
+#' 
 #' @export
 #' @examples
 #' library(geotopbricks)

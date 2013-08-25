@@ -55,7 +55,9 @@ library(geotopbricks)
 library(raster)
 file <- system.file("doc/examples/snowthickness",package="geotopbricks")
 file <- paste(file,"SnowThickness0000L\%04d.asc",sep="/")
-b <- brick.decimal.formatter(file=file,nlayers=15)
+# nlayers=15
+nlayers <- 6 ## Only 6 layers are read to minimize the elapsed time of the example!!
+b <- brick.decimal.formatter(file=file,nlayers=nlayers)
 nlayers(b)
 names(b)
 }

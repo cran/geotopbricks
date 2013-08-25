@@ -7,7 +7,8 @@ NULL
 #' 
 #' Added implemetation for 'brick' S4 method 
 #' 
-#' @param x a 'zoo' object returned by function \code{\link{pointer.to.maps.xyz.time}} or \code{\link{pointer.to.maps.xy.time}} or a \code{\link{GeotopRasterBrick-class}} object
+#' @param x a 'zoo' object returned by function \code{\link{pointer.to.maps.xyz.time}} or \code{\link{pointer.to.maps.xy.time}} 
+#' or a \code{\link{GeotopRasterBrick-class}} object
 #' @param layer layer at which raster maps are imported. If is \code{NULL}, maps ara no-zlayer distributed and \code{zoo} must be returend by \code{\link{pointer.to.maps.xy.time}}
 #' @param timerange two-elememts vector containing the time range at which geotop maps are imported
 #' @param time vector of time instants at which geotop maps are imported
