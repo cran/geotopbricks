@@ -9,11 +9,11 @@ NULL
 #' 
 #' @param keyword keyword name
 #' @param inpts.frame data frame returned by \code{\link{declared.geotop.inpts.keywords}} or \code{NULL}. Default is \code{NULL}.
-#' @param vector_sep character value for the separator chacter if Keyword Value must be returned as a vector, otherwise it is \code{NULL}. Default is \code{NULL}, but if \code{numeric} or \code{date} are \code{FALSE},  \code{vactor_sep} is set \code{","} by default.
+#' @param vector_sep character value for the separator chacter if Keyword Value must be returned as a vector, otherwise it is \code{NULL}. Default is \code{NULL}, but if \code{numeric} or \code{date} are \code{FALSE},  \code{vector_sep} is set \code{","} by default.
 #' @param numeric logical value. If \code{TRUE} the Value has numeric type, otherwise it is a string or string vector. Default is \code{FALSE}.
 #' @param date logical value. If \code{TRUE} the Value is retured as \code{\link{POSIXlt}} date, otherwise it is a string or string vector. Default is \code{FALSE}. 
 #' @param format string format representing the date, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"\%d/\%m/\%Y \%H:\%M"} (which is the format used in \code{geotop.inpts} keyword \code{InitDateDDMMYYYYhhmm})
-#' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"A"}.
+#' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"Etc/GMT+1"} (until the previous version it was \code{"A"}) which meens UTC +1.
 #' @param raster logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link{Raster-class}} object built with \code{\link{raster}} method. 
 #' @param file_extension Extension to be added to the keyword if keyword is a file name. Default is \code{".asc"}
 #' @param wpath working directory containing GEOtop files (included the inpts file). It is mandatory if \code{raster} is \code{TRUE}. See \code{\link{declared.geotop.inpts.keywords}}.
@@ -27,6 +27,8 @@ NULL
 #' @param matlab.syntax logical value. Default is \code{FALSE}. If \code{TRUE} a vector is written in a string according to *.m file syntax. Warning: this synstax is not read by GEOtop. 
 #' @param projfile fileneme of the GEOtop projection file. Default is \code{geotop.proj}.
 #' @param start_date,end_date null objects or dates in \code{POSIXlt} format between which the variables are returned. It is enabled in case that \code{date_field} is not \code{NULL} or \code{NA} and \code{data.frame} is \code{TRUE}. Default is \code{NULL}.
+#' @param ContinuousRecovery integer value. Default is 0. It is used for tabular output data and is the number of times GEOtop simulation broke  during its running and was re-launched with 'Contiuous Recovery' option. 
+#' @param ContinuousRecoveryFormatter character string. Default is \code{'_crec\%04d'}. It is used only for tabular output data and if \code{ContinuousRecovery} is equal or greater than 1. 
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
 #' @export 
@@ -80,7 +82,7 @@ NULL
 #' 
 #' 
 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="A",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="Etc/GMT+1",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,ContinuousRecovery=0,ContinuousRecoveryFormatter="_crec%04d",...) {
 
 # Added by the author on Feb 6 2012	
 	
@@ -97,9 +99,9 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	
 	
 	if (is.null(inpts.frame)) inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath,...)
-	
+
 	out <- inpts.frame$Value[inpts.frame$Keyword==keyword]
-	
+
 	if (length(out)==0) {
 		print("Warning (get.geotop.inpts.keyword.value): keyword withot value:")
 		print(keyword)
@@ -108,7 +110,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	}
 	len <- str_length(out)
 	
-
+    
 	
 	if (len>0) {
 		
@@ -157,12 +159,13 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		}
 		
 		if (!is.null(wpath)) projfile <- paste(wpath,projfile,sep="/")
-		
-		if (file.exists(projfile)) {
+		cond <- file.exists(projfile)
+		projection(out) <- getProjection(projfile,cond=cond)
+	#	if (cond) {
+	#		
+	#		projection(out) <- readLines(projfile,warn=FALSE)
 			
-			projection(out) <- readLines(projfile,warn=FALSE)
-			
-		}
+	#	}
 		## ADD projection 
 		
 		
@@ -171,6 +174,10 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	} else if (data.frame) {
 		
 		if (file_extension==".asc" | file_extension=="asc") file_extension=".txt"
+
+		
+		
+		keyword <- out
 		out <- paste(wpath,out,sep="/")
 		
 		 if (is.null(formatter) | is.null(level) | length(level)<1) {
@@ -191,27 +198,76 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 out <- paste(out,formatter,sep="")
 		 
 		 if (str_sub(file_extension,1,1)==".")  {
-			 filepath <- paste(out,file_extension,sep="") 
+			 filepath <- paste(out,file_extension,sep="")
+			 filecrec_extension=paste(ContinuousRecoveryFormatter,file_extension,sep="") ## Continous Recovery Option 
+			 filecrecpath <- paste(out,filecrec_extension,sep="")
 		 } else { 	
 			 filepath <- paste(out,file_extension,sep=".") 
+			 filecrec_extension=paste(ContinuousRecoveryFormatter,file_extension,sep=".") ## Continous Recovery Option 
+			 filecrecpath <- paste(out,filecrec_extension,sep=".")
 		 }
 		 
+		 ### 
+		# ContinuousRecoveryMax <- 50
+		 
+		# ContinuousRecoveryFiles <- spritf(filecrecpath,1:ContinuousRecoveryMax)
+		 
+		 
+		 
+		 ContinuousRecoveryCond <- !is.na(ContinuousRecovery) & !is.null(ContinuousRecovery) & length(ContinuousRecovery)==1 & round(ContinuousRecovery)==ContinuousRecovery &  ContinuousRecovery>0 ## ec on 20143004 This condition was ContinuousRecovery>1
+		 
+		 if (ContinuousRecoveryCond) {
+			 
+			 
+			 filecrecpath <- unlist(lapply(X=filecrecpath,FUN=function(x,nn) {sprintf(x,1:nn)},nn=ContinuousRecovery))
+			 length_points <- length(filepath)
+			 names_points <- filepath
+			 
+			 filepath <- c(filepath,filecrecpath)
+			 
+			 
+		 }
 		 out <- filepath
-		 out <- list()
+		 out <-  list()
 		 
 		 for (i in 1:length(filepath)) {
 			 
 			 if (is.null(date_field)) date_field <- NA 
+			 # ADD POSSIBLE SSH CONNECTION!!! 
+			# ec date 09-03-2013
+			x <- filepath[i]
+			
+			### ec 
+			
+		
+			
+			
+			
+			####
+#			if (str_sub(x,1,3)=='ssh' | str_sub(x,1,5)=='plink') {
+#			
+#				file <- pipe(x) # added line according to http://stackoverflow.com/posts/2226880/edit
+#				open <- TRUE
+#				
+#			 }	else {
+#				 
+#				 file <- x 
+#			 }
+			 file <- file(x)
+			 temp <- read.table(file,header=TRUE,sep=",")
 			 
-			 temp <- read.table(filepath[i],header=TRUE,sep=",")
+			
+			 
 			 if (is.numeric(isNA) & length(isNA)==1) temp[temp<=isNA] <- NA # added on 6 dec 2012
 			 i_index <- which(names(temp)==date_field)
 			
-		###	 print(!is.null(date_field)) 
-		###	 print(!is.na(date_field))
-		###	 print(length(i_index)==1)
-		###	 print(length(date_field)>0)
-			 if (!is.null(date_field) & !is.na(date_field) & length(i_index)==1 & length(date_field)>0) {
+	
+		
+		#####
+		
+		
+		
+			 if (!is.null(date_field) & !is.na(date_field) & length(i_index)==1 & length(date_field)>0 & (!ContinuousRecoveryCond)) {
 				
 				 index <- temp[,i_index]
 				 temp<- temp[,-i_index]
@@ -225,6 +281,22 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 					 temp <- temp[index(temp)>=start_date & index(temp)<=end_date,]
 					 
 				 }
+#	# alternatively			 
+#	            index <- temp[,i_index] 
+#	            index <- as.POSIXlt(index,format=format,tz=tz)
+#				if (!is.null(start_date) & !is.null(end_date)) { 
+#	
+#	 					temp <- temp[index>=start_date & index<=end_date,]
+#				}
+#				
+#	 			temp<- temp[,-i_index]
+#	 			temp <- as.zoo(temp)
+#	  			index(temp) <- index
+#	#
+#	#
+				 
+				 
+				 
 				 
 			 }
 			 
@@ -236,7 +308,60 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 names(out) <- filepath 
 		 
 		 if (length(out)==1) out <- out[[1]]
-		
+		 
+		 if (ContinuousRecoveryCond) {
+			 
+			 names_keys <- paste(keyword,formatter,sep="")
+			 names_keys <- sprintf(names_keys,1:length(names_points))
+			 out <- lapply(X=names_keys, FUN=function(x,list){
+						 
+				index <- str_detect(names(list),x)
+				list <- list[index]	 
+					
+				out <- list[[1]]
+					
+				for (it in list[-1]) {
+						
+					out <- rbind(out,it)
+				}
+					
+				return(out)	 
+					 
+			},list=out)  
+			 
+			for (i in 1:length(out)) {
+				
+				temp <- out[[i]]
+				if (!is.null(date_field) & !is.na(date_field) & length(i_index)==1 & length(date_field)>0) {
+					
+					index <- temp[,i_index]
+					temp<- temp[,-i_index]
+					index <- as.POSIXlt(index,format=format,tz=tz)
+					temp <- as.zoo(temp)
+					index(temp) <- index
+					# insert sart date & date
+					if (!is.null(start_date) & !is.null(end_date)) { 
+						
+					#	print(index(temp)>=start_date & index(temp)<=end_date)
+					temp <- temp[index(temp)>=start_date & index(temp)<=end_date,]
+						
+					}
+					
+				}
+				
+				
+				itr <- which(index(temp)!=index(temp)[1])
+				itr <- c(1,itr)
+				temp <- temp[itr,]
+			
+				out[[i]] <- temp
+				
+			}  
+			 
+			 
+			 
+			 
+		 }
 	} else 	if (add_wpath) {
 		
 		if (!is.null(wpath)) out <- paste(wpath,out,sep="/")

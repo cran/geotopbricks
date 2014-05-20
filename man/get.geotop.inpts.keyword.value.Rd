@@ -2,16 +2,15 @@
 \alias{get.geotop.inpts.keyword.value}
 \title{Returns the values of a keyword of "geotop.inpts" file or data frame with the suitable format}
 \usage{
-  get.geotop.inpts.keyword.value(keyword,
-    inpts.frame = NULL, vector_sep = NULL, numeric = FALSE,
-    format = "\%d/\%m/\%Y \%H:\%M", date = FALSE, tz = "A",
-    raster = FALSE, file_extension = ".asc",
-    add_wpath = FALSE, wpath = NULL,
-    use.read.raster.from.url = TRUE, data.frame = FALSE,
-    formatter = "\%04d", level = 1, date_field = "Date",
-    isNA = -9999, matlab.syntax = TRUE,
-    projfile = "geotop.proj", start_date = NULL,
-    end_date = NULL, ...)
+get.geotop.inpts.keyword.value(keyword, inpts.frame = NULL,
+  vector_sep = NULL, numeric = FALSE, format = "\%d/\%m/\%Y \%H:\%M",
+  date = FALSE, tz = "Etc/GMT+1", raster = FALSE,
+  file_extension = ".asc", add_wpath = FALSE, wpath = NULL,
+  use.read.raster.from.url = TRUE, data.frame = FALSE,
+  formatter = "\%04d", level = 1, date_field = "Date", isNA = -9999,
+  matlab.syntax = TRUE, projfile = "geotop.proj", start_date = NULL,
+  end_date = NULL, ContinuousRecovery = 0,
+  ContinuousRecoveryFormatter = "_crec\%04d", ...)
 }
 \arguments{
   \item{keyword}{keyword name}
@@ -24,7 +23,7 @@
   chacter if Keyword Value must be returned as a vector,
   otherwise it is \code{NULL}. Default is \code{NULL}, but
   if \code{numeric} or \code{date} are \code{FALSE},
-  \code{vactor_sep} is set \code{","} by default.}
+  \code{vector_sep} is set \code{","} by default.}
 
   \item{numeric}{logical value. If \code{TRUE} the Value
   has numeric type, otherwise it is a string or string
@@ -42,7 +41,8 @@
 
   \item{tz}{format string representing the time zone, see
   \code{\link{as.POSIXlt}}, used if \code{date} is
-  \code{TRUE}. Default is \code{"A"}.}
+  \code{TRUE}. Default is \code{"Etc/GMT+1"} (until the
+  previous version it was \code{"A"}) which meens UTC +1.}
 
   \item{raster}{logical value. Default is \code{FALSE}. If
   \code{TRUE} function returns direclty the raster map as
@@ -120,21 +120,31 @@
   not \code{NULL} or \code{NA} and \code{data.frame} is
   \code{TRUE}. Default is \code{NULL}.}
 
+  \item{ContinuousRecovery}{integer value. Default is 0. It
+  is used for tabular output data and is the number of
+  times GEOtop simulation broke during its running and was
+  re-launched with 'Contiuous Recovery' option.}
+
+  \item{ContinuousRecoveryFormatter}{character string.
+  Default is \code{'_crec\%04d'}. It is used only for
+  tabular output data and if \code{ContinuousRecovery} is
+  equal or greater than 1.}
+
   \item{...}{further arguments of
   \code{\link{declared.geotop.inpts.keywords}}}
 }
 \value{
-  the keyword value
+the keyword value
 }
 \description{
-  Returns the values of a keyword of "geotop.inpts" file or
-  data frame with the suitable format
+Returns the values of a keyword of "geotop.inpts" file or
+data frame with the suitable format
 }
 \note{
-  If \code{inpts.frame} is \code{NULL}, \code{inpts.frame}
-  will be obtained by calling the function
-  \code{\link{declared.geotop.inpts.keywords}} with
-  \code{...} arguments.
+If \code{inpts.frame} is \code{NULL}, \code{inpts.frame}
+will be obtained by calling the function
+\code{\link{declared.geotop.inpts.keywords}} with
+\code{...} arguments.
 }
 \examples{
 library(geotopbricks)

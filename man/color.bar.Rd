@@ -2,10 +2,9 @@
 \alias{color.bar}
 \title{Graphic Representation of a Color bar, function written by John Colby}
 \usage{
-  color.bar(lut, min, max = -min, nticks = 11,
-    ticks = seq(min, max, len = nticks), title = "",
-    width = 1.75, height = 5, ncolmax = 100, digits = 4,
-    pdf = NULL)
+color.bar(lut, min, max = -min, nticks = 11, ticks = seq(min, max, len =
+  nticks), title = "", width = 1.75, height = 5, ncolmax = 100,
+  digits = 4, pdf = NULL)
 }
 \arguments{
   \item{lut}{see reference
@@ -36,23 +35,23 @@
   \item{ncolmax}{maximum number of colors. Default is 100.}
 }
 \description{
-  Graphic Representation of a Color bar, function written
-  by John Colby
+Graphic Representation of a Color bar, function written by
+John Colby
 }
 \note{
-  This function is taken from
-  \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}.
-  Plese visit the URL for major details and give your
-  feedback if possible.
+This function is taken from
+\url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}.
+Plese visit the URL for major details and give your
+feedback if possible.
 }
 \examples{
 color.bar(colorRampPalette(c("light green", "yellow", "orange", "red"))(100), -1)
 }
 \author{
-  John Colby
-  \url{http://stackoverflow.com/users/412342/john-colby}
+John Colby
+\url{http://stackoverflow.com/users/412342/john-colby}
 }
 \references{
-  \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}
+\url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}
 }
 

@@ -2,11 +2,10 @@
 \alias{create.geotop.meteo.files}
 \title{Creates geotop meteo files from (a list of) 'zoo' objects}
 \usage{
-  create.geotop.meteo.files(x,
-    format = "\%d/\%m/\%Y \%H:\%M", file_prefix = "meteo",
-    file_extension = ".txt", formatter = "\%04d",
-    na = "-9999", col.names = TRUE, row.names = FALSE,
-    date_field = "Date", sep = ",", quote = FALSE, ...)
+create.geotop.meteo.files(x, format = "\%d/\%m/\%Y \%H:\%M",
+  file_prefix = "meteo", file_extension = ".txt", formatter = "\%04d",
+  na = "-9999", col.names = TRUE, row.names = FALSE,
+  date_field = "Date", sep = ",", level = NULL, quote = FALSE, ...)
 }
 \arguments{
   \item{x}{'zoo' object or a list of 'zoo' object
@@ -48,19 +47,23 @@
   \item{quote}{logical parameter. Default is \code{TRUE}.
   See \code{\link{write.table}}.}
 
+  \item{level}{integer argument. See
+  \code{\link{get.geotop.inpts.keyword.value}} for major
+  details. Default is \code{NULL} and is ignored.}
+
   \item{...}{further argurments for
   \code{\link{write.table}}}
 }
 \description{
-  Creates geotop meteo files from (a list of) 'zoo' objects
+Creates geotop meteo files from (a list of) 'zoo' objects
 }
 \examples{
 library(geotopbricks)
 data(bondone)
-
-create.geotop.meteo.files(x=meteo)
+## Not Run - Uncomment te following line to run the example
+## create.geotop.meteo.files(x=meteo)
 }
 \seealso{
-  \code{\link{write.table}},\code{\link{get.geotop.inpts.keyword.value}}
+\code{\link{write.table}},\code{\link{get.geotop.inpts.keyword.value}}
 }
 

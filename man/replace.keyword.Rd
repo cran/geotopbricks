@@ -2,9 +2,8 @@
 \alias{replace.keyword}
 \title{It replaces some keyword values of \code{geotop.inpts} file with the ones of anoter \code{*.inpts}  value}
 \usage{
-  replace.keyword(x, y = "geotop.inpts",
-    file.output = NULL, write.file.output = TRUE,
-    wpath = NULL, ...)
+replace.keyword(x, y = "geotop.inpts", file.output = NULL,
+  write.file.output = TRUE, wpath = NULL, ...)
 }
 \arguments{
   \item{x}{filename of the \code{*.inpts} with the "new"
@@ -28,19 +27,19 @@
   \item{...}{further arguments}
 }
 \description{
-  It replaces some keyword values of \code{geotop.inpts}
-  file with the ones of anoter \code{*.inpts} value
+It replaces some keyword values of \code{geotop.inpts} file
+with the ones of anoter \code{*.inpts} value
 }
 \details{
-  This function repleces some keword values of \code{y}
-  with the ones indicated in \code{y}. It is useful to
-  replace the meteo station metedata, for instance, when
-  the meteorological station of a study cases are modified.
-  The function returns the new \code{geotop.inpts} file as
-  a vector of character strings. If
-  \code{write.file.output==TRUE}, the output is written in
-  an extarnal file, e.g. \code{"geotop.inpts"} newly (this
-  option is suggested).
+This function repleces some keword values of \code{y} with
+the ones indicated in \code{y}. It is useful to replace the
+meteo station metedata, for instance, when the
+meteorological station of a study cases are modified. The
+function returns the new \code{geotop.inpts} file as a
+vector of character strings. If
+\code{write.file.output==TRUE}, the output is written in an
+extarnal file, e.g. \code{"geotop.inpts"} newly (this
+option is suggested).
 }
 \examples{
 library(geotopbricks)
@@ -49,6 +48,6 @@ x <- "meteo.inpts"
 zl <- replace.keyword(x,wpath=wpath,write.file.output=FALSE)
 }
 \author{
-  Emanuele Cordano
+Emanuele Cordano
 }
 

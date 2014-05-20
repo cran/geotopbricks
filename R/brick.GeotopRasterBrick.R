@@ -5,6 +5,7 @@
 NULL
 
 #' 
+#' 
 #' Added implemetation for 'brick' S4 method 
 #' 
 #' @param x a 'zoo' object returned by function \code{\link{pointer.to.maps.xyz.time}} or \code{\link{pointer.to.maps.xy.time}} 
@@ -23,13 +24,21 @@ NULL
 #' @export
 
 
-
-#' @aliases brick
+#' @import raster
+#   @aliases brick
 #' @rdname brick-methods
-#' @keywords methods
-#' @docType methods
+# @keywords methods
+# @docType methods
 #' @method brick zoo 
 #' @aliases brick,zoo-method
+#'
+#  #' @rdname brick-methods
+# @keywords methods
+# @docType methods
+# @method brick GeotopRasterBrick 
+# @aliases brick,GeotopRasterBrick-method
+#
+#'
 #' @examples 
 #' # TON TOSS 
 #' # See the examples in the functions listed in the 'SeeAlso' section
@@ -108,20 +117,25 @@ setMethod('brick', signature(x='zoo'),
 )
 
 NULL
-#' @title brick
+#' brick method for GeotopRasterBrick
+#' 
+#' 
+#'  @title brick
 #' @name brick
 #' 
 #' @export
-
-
-#' @aliases brick
 #' @rdname brick-methods
 #' @keywords methods
 #' @docType methods
 #' @method brick GeotopRasterBrick 
 #' @aliases brick,GeotopRasterBrick-method
 
-
+# @export
+# @rdname KML-methods
+# @keywords methods
+# @docType methods
+# @method KML GeotopRasterBrick 
+# @aliases KML,GeotopRasterBrick-me
 setMethod('brick', signature(x='GeotopRasterBrick'), 
 		function(x) {
 			

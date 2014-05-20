@@ -1,9 +1,16 @@
 \docType{methods}
 \name{brick}
+\alias{#}
 \alias{brick}
 \alias{brick,GeotopRasterBrick-method}
 \alias{brick,zoo-method}
 \title{brick}
+\usage{
+\S4method{brick}{zoo}(x, layer = 1, timerange = NULL, time = NULL,
+  rows = 1:nrow(x), crs = NULL, use.read.raster.from.url = TRUE)
+
+\S4method{brick}{GeotopRasterBrick}(x)
+}
 \arguments{
   \item{x}{a 'zoo' object returned by function
   \code{\link{pointer.to.maps.xyz.time}} or
@@ -39,24 +46,24 @@
   and \code{use.read.raster.from.url} is necessary.}
 }
 \value{
-  a \code{\link{RasterBrick-class}} containing the geopop
-  maps indicated by \code{x}, which is already in a
-  \code{\link{GeotopRasterBrick-class}} object or a 'zoo'
-  object returned by function
-  \code{\link{pointer.to.maps.xyz.time}} or
-  \code{\link{pointer.to.maps.xy.time}}.
+a \code{\link{RasterBrick-class}} containing the geopop
+maps indicated by \code{x}, which is already in a
+\code{\link{GeotopRasterBrick-class}} object or a 'zoo'
+object returned by function
+\code{\link{pointer.to.maps.xyz.time}} or
+\code{\link{pointer.to.maps.xy.time}}.
 }
 \description{
-  Added implemetation for 'brick' S4 method
+Added implemetation for 'brick' S4 method
 
-  brick
+brick method for GeotopRasterBrick
 }
 \examples{
 # TON TOSS
 # See the examples in the functions listed in the 'SeeAlso' section
 }
 \seealso{
-  \code{\link{getvalues.brick.at.depth}},\code{\link{vertical.aggregate.brick.within.depth}}
+\code{\link{getvalues.brick.at.depth}},\code{\link{vertical.aggregate.brick.within.depth}}
 }
 \keyword{methods}
 

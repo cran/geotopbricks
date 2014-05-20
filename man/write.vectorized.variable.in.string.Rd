@@ -2,8 +2,8 @@
 \alias{write.vectorized.variable.in.string}
 \title{Writes one or more variables (scalars, vectors or Rasters) in a string each, following \code{*.inpts} or Matlab-like syntax.}
 \usage{
-  write.vectorized.variable.in.string(l, NAflag = -9999,
-    matlab.syntax = FALSE, ...)
+write.vectorized.variable.in.string(l, NAflag = -9999,
+  matlab.syntax = FALSE, ...)
 }
 \arguments{
   \item{l}{a code{list} object contained the variables
@@ -20,16 +20,16 @@
   \item{...}{further aguments}
 }
 \value{
-  the string vector
-  \code{<NAME_VARIABLE>==<VALUES_VARIABLE>}.
+the string vector
+\code{<NAME_VARIABLE>==<VALUES_VARIABLE>}.
 }
 \description{
-  Writes one or more variables (scalars, vectors or
-  Rasters) in a string each, following \code{*.inpts} or
-  Matlab-like syntax.
+Writes one or more variables (scalars, vectors or Rasters)
+in a string each, following \code{*.inpts} or Matlab-like
+syntax.
 }
 \note{
-  Add Quote if necessary
+Add Quote if necessary
 }
 \examples{
 a <- 1:5
@@ -38,6 +38,6 @@ out <- write.vectorized.variable.in.string(l,matlab.syntax=TRUE)
 out
 }
 \seealso{
-  \code{\link{read.ascii.vectorized.brick}}
+\code{\link{read.ascii.vectorized.brick}}
 }
 

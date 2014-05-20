@@ -9,12 +9,14 @@ NULL
 #' 
 #' @title plot
 #' @name plot
-####@export
+#' @export
 #' @rdname plot-methods
 #' @keywords methods
 #' @docType methods
 #' @method plot GeotopRasterBrick 
-#' @aliases plot,GeotopRasterBrick-method
+#' @aliases plot,GeotopRasterBrick,ANY-method
+#' 
+
 #' 
 #' @seealso \code{\link{KML}}
 #' 

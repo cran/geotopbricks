@@ -2,10 +2,9 @@
 \alias{brick.decimal.formatter}
 \title{Imports a brick of raster ascii maps into a 'brick' object}
 \usage{
-  brick.decimal.formatter(file = NULL, file_prefix,
-    formatter = "\%04d", file_extension = ".asc",
-    nlayers = 10, use.read.raster.from.url = FALSE,
-    crs = NULL, start.from.zero = FALSE)
+brick.decimal.formatter(file = NULL, file_prefix, formatter = "\%04d",
+  file_extension = ".asc", nlayers = 10, use.read.raster.from.url = FALSE,
+  crs = NULL, start.from.zero = FALSE)
 }
 \arguments{
   \item{file}{fileneme of the 'brick' files containing the
@@ -43,12 +42,11 @@
   Default is \code{NULL}.}
 }
 \value{
-  the output is returned as a
-  \code{\link{RasterBrick-class}} object
+the output is returned as a \code{\link{RasterBrick-class}}
+object
 }
 \description{
-  Imports a brick of raster ascii maps into a 'brick'
-  object
+Imports a brick of raster ascii maps into a 'brick' object
 }
 \examples{
 library(geotopbricks)

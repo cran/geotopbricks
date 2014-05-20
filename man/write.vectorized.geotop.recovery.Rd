@@ -2,9 +2,8 @@
 \alias{write.vectorized.geotop.recovery}
 \title{It writes a \code{list} object returened by \code{\link{get.geotop.recovery.state}} as a string vector or in a text file, following \code{*.inpts} or Matlab-like syntax.}
 \usage{
-  write.vectorized.geotop.recovery(rec, file = NULL,
-    header = NULL, overwrite = TRUE, NAflag = -9999,
-    matlab.syntax = TRUE, ...)
+write.vectorized.geotop.recovery(rec, file = NULL, header = NULL,
+  overwrite = TRUE, NAflag = -9999, matlab.syntax = TRUE, ...)
 }
 \arguments{
   \item{rec}{a \code{list} object returened by
@@ -31,21 +30,21 @@
   \item{...}{further aguments inserted as attribute}
 }
 \value{
-  a string vector containg the \code{rec} variables.
+a string vector containg the \code{rec} variables.
 }
 \description{
-  It writes a \code{list} object returened by
-  \code{\link{get.geotop.recovery.state}} as a string
-  vector or in a text file, following \code{*.inpts} or
-  Matlab-like syntax.
+It writes a \code{list} object returened by
+\code{\link{get.geotop.recovery.state}} as a string vector
+or in a text file, following \code{*.inpts} or Matlab-like
+syntax.
 }
 \note{
-  Add Quote if necessary
+Add Quote if necessary
 }
 \examples{
 # See the examples of the 'get.geotop.recovery.state' function
 }
 \seealso{
-  \code{\link{get.geotop.recovery.state}},\code{\link{set.geotop.recovery.state}},\code{\link{write.vectorized.variable.in.string}}
+\code{\link{get.geotop.recovery.state}},\code{\link{set.geotop.recovery.state}},\code{\link{write.vectorized.variable.in.string}}
 }
 

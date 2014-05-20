@@ -1,10 +1,10 @@
 NULL
 #
 #'
-#' Extracts a brick or a raster layer from a output 3D Tensor or 2D map respectively 
+#' Extracts a list of files pointing to  an output 3D Tensor or 2D map respectively 
 #' 
 #' @param x string. GEOtop keyword reletated to the 3D or 2D variable to be imported in R. 
-#' @param when \code{\link{POSIXct-class}} for date and time on which the variable \code{x} is requested. 
+#' @param when \code{\link{POSIXlt-class}} for date and time on which the variable \code{x} is requested. 
 #' @param layers number of soil layer or geotop keyword for soil leyer (e.g. \code{SoilLayerThicknesses} or \code{SoilFile}). Default is  \code{SoilLayerThicknesses}. 
 #' @param timestep time step expressed in seconds every which the raster file has been created. It can be a string corresponding to the geotop keyword in the inpts file. Default value is \code{"OutputSoilMaps"}.
 #' @param suffix charcher string containing the decimal formatter used by GEOtop in the output file names. Default is "L%04dN%04.asc". A simple user is recommended not to modify the value of this argument and use the default value.
@@ -16,12 +16,12 @@ NULL
 #' @param secondary.suffix String secondary suffix which can be added at the end of the Map file name (optional). Default is \code{NULL} and no secondary suffix is added.  
 #' @param ... additional arguments for \code{\link{get.geotop.inpts.keyword.value}} or \code{\link{brickFromOutputSoil3DTensor}}
 #'  
-#' @rdname brickFromOutputSoil3DTensor
+#' 
 #' @author Emanuele Cordano
 #' 
 #'  
 #' 
-#' @details These functions \code{brickFromOutputSoil3DTensor} and \code{rasterFromOutput2DMap} return 3D or 2D \code{\link{Raster-class}} objects respectively. \code{rasterFromOutput2DMap} is a wrapper function of \code{brickFromOutputSoil3DTensor} with the option \code{one.layer==TRUE}.
+#' @details This function is experimental and documentation partially exhaustive. These functions \code{brickFromOutputSoil3DTensor} and \code{rasterFromOutput2DMap} return 3D or 2D \code{\link{Raster-class}} objects respectively. \code{rasterFromOutput2DMap} is a wrapper function of \code{brickFromOutputSoil3DTensor} with the option \code{one.layer==TRUE}.
 #' The functionswork with the following output keywords: 
 #' 
 #' \code{"SoilTempTensorFile"},
@@ -118,36 +118,66 @@ NULL
 #' 
 #' \code{"EvapotranspirationFromSoilMapFile"} for \code{\link{rasterFromOutput2DMap}}.
 #' 
-
 #' 
 #' 
-#' @seealso \code{\link{get.geotop.inpts.keyword.value}},\code{\link{brick.decimal.formatter}}
+#' 
+#' @seealso \code{\link{get.geotop.inpts.keyword.value}},\code{\link{brick.decimal.formatter}},\code{\link{brickFromOutputSoil3DTensor}}
 #'
 #' @export
 #' 
 #' @examples 
 #' 
-#' library(geotopbricks)
-#' # The data containing in the link are only for educational use
+# library(geotopbricks)
+# # The data containing in the link are only for educational use
+# wpath <- "http://www.boussinesq.org/geotopbricks/simulations/idroclim_test1"
+# x <- "SoilLiqContentTensorFile"
+# when <- as.POSIXlt("2002-03-22 UTC",tz="A")
+# 
+# # Not Run because it elapses too long time!!! 
+# # Please Uncomment the following lines to run by yourself!!!
+# 
+# # b <- brickFromOutputSoil3DTensor(x,when=when,wpath=wpath,tz="A",use.read.raster.from.url=TRUE)
+# 
+# # a 2D map: 
+# x_e <- "SnowDepthMapFile"
+# # Not Run: uncomment the following line
+# # m <- rasterFromOutput2DMap(x_e,when=when,wpath=wpath,timestep="OutputSnowMaps",tz="A")
+# # Not Run: uncomment the following line
+# # plot(m)
+#
+
+#' 
+#' tz <-  "Etc/GMT+1"
+#' start <- as.POSIXct("2002-03-22",tz=tz)
+#' end <- as.POSIXct("2002-03-25",tz=tz)
+#' day <- 3600*24
+#' when <- seq(from=start,to=end,by=day)
+#' #' # The data containing in the link are only for educational use
 #' wpath <- "http://www.boussinesq.org/geotopbricks/simulations/idroclim_test1"
 #' x <- "SoilLiqContentTensorFile"
-#' tz <-  "Etc/GMT+1"
-#' when <- as.POSIXct("2002-03-22",tz=tz)
+#' when <- as.POSIXct("2002-03-22 UTC",tz="A")
 #' 
 #' # Not Run because it elapses too long time!!! 
 #' # Please Uncomment the following lines to run by yourself!!!
-#' # b <- brickFromOutputSoil3DTensor(x,when=when,wpath=wpath,tz=tz,use.read.raster.from.url=TRUE)
 #' 
-#' # a 2D map: 
-#' x_e <- "SnowDepthMapFile"
-#' # Not Run: uncomment the following line
-#' # m <- rasterFromOutput2DMap(x_e,when=when,wpath=wpath,timestep="OutputSnowMaps",
-#' #                            tz=tz,use.read.raster.from.url=TRUE)
-#' ## NOTE: set use.read.raster.from.url=FALSE (default) 
-#' # if the "wpath" directorty is in the local file system.
-#' # Not Run: uncomment the following line
-#' # plot(m)
-#'
+#' 
+#'# wpath <- '/Users/ecor/attivita/2013/fem-idroclima/Trentino_500_dstr_GEOtop_1_225_9_002'
+#' 
+#' #kpsi <- "SoilLiqWaterPressTensorFile" ## soil water pressure head 
+#' 
+#' out <-listFromOutputSoil3DTensor(x,when=when,wpath=wpath,tz=tz,use.read.raster.from.url=FALSE)
+
+
+
+
+
+
+
+
+
+
+
+
 
 #
 #SoilLiqContentTensorFile
@@ -182,9 +212,11 @@ NULL
 
 
 
-brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one.layer=FALSE,suffix="L%04dN%04d.asc",wpath=NULL,tz="A",start_date_key="InitDateDDMMYYYYhhmm",end_date_key="EndDateDDMMYYYYhhmm",timestep="OutputSoilMaps",use.read.raster.from.url=FALSE,crs=NULL,projfile="geotop.proj",start.from.zero=FALSE,secondary.suffix=NULL,...) {
+listFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one.layer=FALSE,suffix="L%04dN%04d.asc",wpath=NULL,tz="A",start_date_key="InitDateDDMMYYYYhhmm",end_date_key="EndDateDDMMYYYYhhmm",timestep="OutputSoilMaps",use.read.raster.from.url=FALSE,crs=NULL,projfile="geotop.proj",start.from.zero=FALSE,secondary.suffix=NULL,...) {
 	
 	out <- NULL
+	
+
 
 	
 	if (is.null(crs)) { 
@@ -268,11 +300,10 @@ brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one
 	
 	
 	print(paste("Maps to import:",length(when),"from",as.character(when[1]),"to",as.character(when[length(when)]),sep=" "))
-	
-	out <- lapply(X=when,FUN=function(whenx,map.prefix,suffix,crs,layers,start.from.zero,one.layer,time,timestep) {
+	out <- lapply(X=when,FUN=function(when,map.prefix,suffix,crs,layers,start.from.zero,one.layer,time,timestep) {
 		
-		print(paste("Importing",as.character(whenx),sep=" "))
-		t_index <- abs(whenx-time)<timestep
+		print(paste("Importing",as.character(when),sep=" "))
+		t_index <- abs(when-time)<timestep
 		index <- 1
 		n <- which(t_index)[index]
 				
@@ -301,20 +332,30 @@ brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one
 		
 			if (one.layer) {
 			
-				if (use.read.raster.from.url) {				
-					out <- read.raster.from.url(x=map.filename)
-				} else {
-					out <- raster(map.filename)
-				}
+#				if (use.read.raster.from.url) {		#### RELPACE WITH returns.filename		
+#					out <- map.filename
+#				} else {
+#					out <- raster(map.filename)
+#				}
+#			
+#				if (!is.null(crs)) {
+#					projection(out) <- crs
+#				}
 			
-				if (!is.null(crs)) {
-					projection(out) <- crs
-				}
-			
-			
+				out <- array(map.filename,2)
+				out[2] <- crs
+				names(out) <- c("Value","CRS")
+		
+				
 			} else {
-			
-				out <- brick.decimal.formatter(map.filename,nlayers=length(layers),use.read.raster.from.url=use.read.raster.from.url,start.from.zero=start.from.zero,crs=crs)
+				
+				##out <- map.filename 
+				lln <- 1
+				if (start.from.zero) llx <-0 
+				llx <- length(layers)
+				
+				out <- sprintf(map.filename,lln:llx)
+				#brick.decimal.formatter(map.filename,nlayers=length(layers),use.read.raster.from.url=use.read.raster.from.url,start.from.zero=start.from.zero,crs=crs)
 		
 				if (start.from.zero) {
 			
@@ -325,6 +366,9 @@ brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one
 				}
 		
 				names(out)[1:length(layers)] <- paste(names(out)[1:length(layers)],layers,sep="_")
+				
+				out[length(out)+1] <- crs
+				names(out)[length(out)] <- "CRS" 
 			} 
 
 		
@@ -343,23 +387,25 @@ brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one
 	
 	if (length(out)==1) out <- out[[1]]
 	
+	### class(out) <- "ObjectRetunedByListFromOutputSoil3DTensor"
+	
 	return(out)
 	
 	
 }
 
-NULL 
-#'
-#' 
-#' @rdname brickFromOutputSoil3DTensor
-#' @export 
-
-rasterFromOutput2DMap <- function(x,when,...) {
-	
-	
-	out <- brickFromOutputSoil3DTensor(x=x,when=when,layers=1,one.layer=TRUE,...)
-	return(out)
-	
-}
-
+#NULL 
+##'
+##' 
+##' @rdname brickFromOutputSoil3DTensor
+##' @export 
+#
+#rasterFromOutput2DMap <- function(x,when,...) {
+#	
+#	
+#	out <- brickFromOutputSoil3DTensor(x=x,when=when,layers=1,one.layer=TRUE,...)
+#	return(out)
+#	
+#}
+#
 

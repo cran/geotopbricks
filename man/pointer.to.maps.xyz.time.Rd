@@ -3,9 +3,8 @@
 \alias{pointer.to.maps.xyz.time}
 \title{pointer.to.maps.xyz.time}
 \usage{
-  pointer.to.maps.xyz.time(wpath, map.prefix = "thetaliq",
-    suffix = "L\%04dN\%04d.asc", zoo.index = NULL, ntime,
-    nlayers)
+pointer.to.maps.xyz.time(wpath, map.prefix = "thetaliq",
+  suffix = "L\%04dN\%04d.asc", zoo.index = NULL, ntime, nlayers)
 }
 \arguments{
   \item{wpath}{complete working path to *.asc maps are
@@ -29,15 +28,15 @@
   \item{nlayers}{number of vertical layers.}
 }
 \value{
-  A dota.frame or zoo object containig the paths to maps
-  fpr each time and z layer.
+A dota.frame or zoo object containig the paths to maps fpr
+each time and z layer.
 }
 \description{
-  pointer.to.maps.xyz.time
 
-  pointer.to.maps.xy.time
+
+pointer.to.maps.xy.time
 }
 \author{
-  Emanuele Cordano
+Emanuele Cordano
 }
 

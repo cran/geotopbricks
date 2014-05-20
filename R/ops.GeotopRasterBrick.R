@@ -2,7 +2,7 @@
 
 
 NULL
-#'
+#' 
 #' \code{Ops} method for a \code{GeotopRasterBrick} object
 #' 
 #' @param e1,e2  the \code{\link{GeotopRasterBrick}} or numeric  objects
@@ -14,18 +14,12 @@ NULL
 #' @importFrom "methods" Arith 
 #' @importFrom "methods" Compare
 #' @importFrom "methods" Logic
-#' 
-#### @export
-# @rdname Ops
-
-# @method Ops GeotopRasterBrick GeotopRasterBrick 
-#' 
-#' @aliases Ops
+#' @export
 #' @rdname Ops-methods
 #' @keywords methods
 #' @docType methods
 #' @method Ops GeotopRasterBrick GeotopRasterBrick
-#' @aliases Ops,GeotopRasterBrick-method
+#' @aliases Ops,GeotopRasterBrick,GeotopRasterBrick-method
 
 
 
@@ -81,18 +75,12 @@ setMethod("Ops", signature(e1='GeotopRasterBrick', e2='GeotopRasterBrick'),
 NULL
 
 #'
-#### @export
-# @rdname Ops
-
-# @method Ops GeotopRasterBrick numeric 
-# @aliases Ops
-#' 
-#' @aliases Ops
+#' @export
 #' @rdname Ops-methods
-#' @keywords methods
-#' @docType methods
+#' 
+#' 
 #' @method Ops GeotopRasterBrick numeric
-#' @aliases Ops,GeotopRasterBrick-method
+#' @aliases Ops,GeotopRasterBrick,numeric-method
 setMethod("Ops", signature(e1='GeotopRasterBrick', e2='numeric'),
 		function(e1,e2) {
 			
@@ -109,19 +97,16 @@ setMethod("Ops", signature(e1='GeotopRasterBrick', e2='numeric'),
 NULL
 
 #'
-#### @export
-# @rdname Ops
-
-# @method Ops numeric GeotopRasterBrick 
-# @aliases Ops
-#' 
-#' 
-#' @aliases Ops
+#' @export
 #' @rdname Ops-methods
-#' @keywords methods
-#' @docType methods
+#' 
+#' 
+#' 
+#' @rdname Ops-methods
+# @keywords methods
+# @docType methods
 #' @method Ops numeric GeotopRasterBrick
-#' @aliases Ops,GeotopRasterBrick-method
+#' @aliases Ops,numeric,GeotopRasterBrick-method
 
 setMethod("Ops", signature(e1='numeric', e2='GeotopRasterBrick'),
 		function(e1,e2) {

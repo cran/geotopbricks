@@ -7,6 +7,7 @@
 NULL
 
 #' @rdname geotopbrick
+#' @title geotopbrick
 #' @export
 
 
@@ -39,9 +40,8 @@ geotopbrick.default <- function (x,...) {
 
 NULL
 
-#' @title geotopbrick
-#' @name geotopbrick
-#' @aliases geotopbrick.zoo 
+#'
+#' geotopbrick method bla bla bla
 #'  
 #' @param x a 'zoo' object returned by function \code{\link{pointer.to.maps.xyz.time}} or \code{\link{pointer.to.maps.xy.time}} or a \code{\link{GeotopRasterBrick-class}} object
 #' @param layer layer at which raster maps are imported. If is \code{NULL}, maps ara no-zlayer distributed and \code{zoo} must be returend by \code{\link{pointer.to.maps.xy.time}}
@@ -54,12 +54,15 @@ NULL
 #' 
 #' 
 #' @return a \code{\link{GeotopRasterBrick-class}}
+#' @title geotopbrick
+#' @name geotopbrick
 #' 
 #' 
 #' @rdname geotopbrick
 #' 
 #' @method geotopbrick zoo
 #' @S3method geotopbrick zoo
+#' @aliases geotopbrick.zoo 
 #' 
 #' 
 #' @export

@@ -2,9 +2,9 @@
 \alias{vertical.aggregate.brick.within.depth}
 \title{Aggregates with a mean or an addition on the vertical profile the values of a 'brick' within a certain depth  and returns the vertical aggregated map}
 \usage{
-  vertical.aggregate.brick.within.depth(x, depth = NULL,
-    layers = NULL, i0 = NULL, verify = FALSE,
-    FUN = identity, divide.by.depth = FALSE, ...)
+vertical.aggregate.brick.within.depth(x, depth = NULL, layers = NULL,
+  i0 = NULL, verify = FALSE, FUN = identity, divide.by.depth = FALSE,
+  ...)
 }
 \arguments{
   \item{x}{a 'RasterBrick' or a three-dimensional array}
@@ -31,24 +31,24 @@
   \item{...}{further argument for \code{FUN}}
 }
 \value{
-  a list of 'Raster' maps:
+a list of 'Raster' maps:
 
-  \code{i0} a 'Raster' containing the number of soil laver
-  just over the bedrock
+\code{i0} a 'Raster' containing the number of soil laver
+just over the bedrock
 
-  \code{z0} a 'Raster' containing the depth of the center
-  of the \code{i0}-th layer
+\code{z0} a 'Raster' containing the depth of the center of
+the \code{i0}-th layer
 
-  \code{result} a 'Raster' containing the aggregated map
+\code{result} a 'Raster' containing the aggregated map
 }
 \description{
-  Aggregates with a mean or an addition on the vertical
-  profile the values of a 'brick' within a certain depth
-  and returns the vertical aggregated map
+Aggregates with a mean or an addition on the vertical
+profile the values of a 'brick' within a certain depth and
+returns the vertical aggregated map
 }
 \note{
-  \code{x} and \code{depth} or \code{i0} must cover the
-  same spatial region.
+\code{x} and \code{depth} or \code{i0} must cover the same
+spatial region.
 }
 \examples{
 library(geotopbricks)
@@ -60,6 +60,6 @@ package="geotopbricks")
 # You can copy the example file using file.copy(from=f,to=....,...) See file.copy documentation
 }
 \seealso{
-  \code{\link{getvalues.brick.at.depth}},\code{\link{brick}}
+\code{\link{getvalues.brick.at.depth}},\code{\link{brick}}
 }
 

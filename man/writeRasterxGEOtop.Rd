@@ -2,10 +2,9 @@
 \alias{writeRasterxGEOtop}
 \title{This function uses  \code{\link{writeRaster}} to create .asc maps which can be read by GEOtop}
 \usage{
-  writeRasterxGEOtop(x, filename = NULL, overwrite = TRUE,
-    NAflag = -9999, use.decimal.formatter = FALSE,
-    start.from.zero = FALSE, keyword, wpath,
-    suffix.ext = ".asc", ...)
+writeRasterxGEOtop(x, filename = NULL, overwrite = TRUE, NAflag = -9999,
+  use.decimal.formatter = FALSE, start.from.zero = FALSE, keyword, wpath,
+  suffix.ext = ".asc", ...)
 }
 \arguments{
   \item{x}{a Raster object, see \code{\link{writeRaster}}.
@@ -52,14 +51,14 @@
   \code{\link{writeRaster}}}
 }
 \description{
-  This function uses \code{\link{writeRaster}} to create
-  .asc maps which can be read by GEOtop
+This function uses \code{\link{writeRaster}} to create .asc
+maps which can be read by GEOtop
 }
 \note{
-  It makes use of \code{\link{system}} functons. It uses
-  \code{*.asc} format for raster files.  In case the file
-  name \code{filename} is missing and then \code{NULL}, it
-  must be imported by the simulation \code{geotop.inpts}
-  file.
+It makes use of \code{\link{system}} functons. It uses
+\code{*.asc} format for raster files.  In case the file
+name \code{filename} is missing and then \code{NULL}, it
+must be imported by the simulation \code{geotop.inpts}
+file.
 }
 

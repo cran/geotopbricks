@@ -2,9 +2,8 @@
 \alias{get.geotop.recovery.state}
 \title{This function saves all spatially distrubuted information contained in the recovery folder into a comprehensive \code{list} object.}
 \usage{
-  get.geotop.recovery.state(recFolder, xx = "0000",
-    formatter = "L\%04d", extension = ".asc",
-    nsoillayers = 10, ...)
+get.geotop.recovery.state(recFolder, xx = "0000", formatter = "L\%04d",
+  extension = ".asc", nsoillayers = 10, ...)
 }
 \arguments{
   \item{recFolder}{directory when recvery maps are set. In
@@ -25,17 +24,16 @@
   \item{...}{further arguments}
 }
 \value{
-  a \code{list} object containining all recovery raster
-  maps.
+a \code{list} object containining all recovery raster maps.
 }
 \description{
-  This function saves all spatially distrubuted information
-  contained in the recovery folder into a comprehensive
-  \code{list} object.
+This function saves all spatially distrubuted information
+contained in the recovery folder into a comprehensive
+\code{list} object.
 }
 \note{
-  This function has been used with the built 1.225-9 of
-  GEOtop .
+This function has been used with the built 1.225-9 of
+GEOtop .
 }
 \examples{
 library(geotopbricks)
@@ -47,13 +45,13 @@ example_Rscript
 # source(example_Rscript)
 }
 \author{
-  Emanuele Cordano
+Emanuele Cordano
 }
 \seealso{
-  \code{\link{brick.decimal.formatter}},
+\code{\link{brick.decimal.formatter}},
 
-  \code{\link{raster}},\code{\link{set.geotop.recovery.state}},
+\code{\link{raster}},\code{\link{set.geotop.recovery.state}},
 
-  \code{\link{write.vectorized.geotop.recovery}},\code{\link{read.vectorized.geotop.recovery}}
+\code{\link{write.vectorized.geotop.recovery}},\code{\link{read.vectorized.geotop.recovery}}
 }
 

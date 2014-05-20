@@ -2,9 +2,8 @@
 \alias{declared.geotop.inpts.keywords}
 \title{Collects all keywords contained in the 'getop.inpts' configuration files and their values in a data frame object.}
 \usage{
-  declared.geotop.inpts.keywords(wpath,
-    inpts.file = "geotop.inpts", comment = "!",
-    exceptions = "Date", warn = FALSE, ...)
+declared.geotop.inpts.keywords(wpath, inpts.file = "geotop.inpts",
+  comment = "!", exceptions = "Date", warn = FALSE, ...)
 }
 \arguments{
   \item{wpath}{working directory containing GEOtop files}
@@ -25,15 +24,15 @@
   \item{...}{further arguments of \code{\link{readLines}}}
 }
 \value{
-  a data frame with two columns: \code{Keyword} and
-  \code{Value}
+a data frame with two columns: \code{Keyword} and
+\code{Value}
 }
 \description{
-  Collects all keywords contained in the 'getop.inpts'
-  configuration files and their values in a data frame
-  object.
+Collects all keywords contained in the 'getop.inpts'
+configuration files and their values in a data frame
+object.
 }
 \seealso{
-  \code{\link{get.geotop.inpts.keyword.value}}
+\code{\link{get.geotop.inpts.keyword.value}}
 }
 

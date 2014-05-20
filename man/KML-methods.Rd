@@ -3,10 +3,14 @@
 \alias{KML}
 \alias{KML,GeotopRasterBrick-method}
 \title{KML}
+\usage{
+\S4method{KML}{GeotopRasterBrick}(x, filename,
+  crs = as.character("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"), ...)
+}
 \arguments{
   \item{x}{the \code{\link{GeotopRasterBrick}} object}
 
-  \item{fileneme}{mane of the KML file to produce}
+  \item{filename}{mane of the KML file to produce}
 
   \item{crs}{character string containg the LatLon reference
   system. Default is \code{"+proj=longlat +ellps=WGS84
@@ -17,11 +21,11 @@
   Raster object.}
 }
 \description{
-  \code{KML} method for a \code{GeotopRasterBrick} object
+\code{KML} method for a \code{GeotopRasterBrick} object
 }
 \note{
-  A coordinate transformation is made with
-  \code{\link{projectRaster}}.
+A coordinate transformation is made with
+\code{\link{projectRaster}}.
 }
 \examples{
 library(geotopbricks)

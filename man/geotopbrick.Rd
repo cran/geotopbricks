@@ -1,28 +1,27 @@
 \name{geotopbrick}
 \alias{geotopbrick}
-\alias{geotopbrick.default}
 \alias{geotopbrick.GeotopRasterBrick}
 \alias{geotopbrick.RasterBrick}
 \alias{geotopbrick.RasterLayer}
+\alias{geotopbrick.default}
 \alias{geotopbrick.zoo}
 \title{geotopbrick}
 \usage{
-  geotopbrick(x = NULL, ...)
+geotopbrick(x = NULL, ...)
 
-  \method{geotopbrick}{default} (x, ...)
+\method{geotopbrick}{default}(x, ...)
 
-  \method{geotopbrick}{zoo} (x, layer = NULL, time = NULL,
-    crs = NULL, timerange = NULL, ...)
+\method{geotopbrick}{zoo}(x, layer = NULL, time = NULL, crs = NULL,
+  timerange = NULL, ...)
 
-  \method{geotopbrick}{RasterLayer} (x, layer = NULL,
-    time = NULL, ascpath = zoo(NULL), ...)
+\method{geotopbrick}{RasterLayer}(x, layer = NULL, time = NULL,
+  ascpath = zoo(NULL), ...)
 
-  \method{geotopbrick}{RasterBrick} (x, layer = NULL,
-    time = NULL, ascpath = zoo(NULL), ...)
+\method{geotopbrick}{RasterBrick}(x, layer = NULL, time = NULL,
+  ascpath = zoo(NULL), ...)
 
-  \method{geotopbrick}{GeotopRasterBrick} (x, layer = NULL,
-    time = NULL, crs = NULL, timerange = NULL,
-    ascpath = NULL, ...)
+\method{geotopbrick}{GeotopRasterBrick}(x, layer = NULL, time = NULL,
+  crs = NULL, timerange = NULL, ascpath = NULL, ...)
 }
 \arguments{
   \item{x}{a 'zoo' object returned by function
@@ -51,9 +50,11 @@
   \item{...}{further arguments.}
 }
 \value{
-  a \code{\link{GeotopRasterBrick-class}}
+a \code{\link{GeotopRasterBrick-class}}
 }
 \description{
-  geotopbrick
+geotopbrick
+
+geotopbrick method bla bla bla
 }
 

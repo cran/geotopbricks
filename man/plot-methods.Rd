@@ -1,8 +1,11 @@
 \docType{methods}
 \name{plot}
 \alias{plot}
-\alias{plot,GeotopRasterBrick-method}
+\alias{plot,GeotopRasterBrick,ANY-method}
 \title{plot}
+\usage{
+\S4method{plot}{GeotopRasterBrick,ANY}(x, y = NULL, ...)
+}
 \arguments{
   \item{x}{the \code{\link{GeotopRasterBrick}} object}
 
@@ -12,7 +15,7 @@
   Raster object.}
 }
 \description{
-  \code{plot} method for a \code{GeotopRasterBrick} object
+\code{plot} method for a \code{GeotopRasterBrick} object
 }
 \examples{
 library(geotopbricks)
@@ -22,7 +25,7 @@ f <- system.file("doc/examples/example.plot.GeotopRasterBrick.R",package="geotop
 # You can copy the example file using file.copy(from=f,to=....,...) See file.copy documentation
 }
 \seealso{
-  \code{\link{KML}}
+\code{\link{KML}}
 }
 \keyword{methods}
 

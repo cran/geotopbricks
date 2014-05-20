@@ -20,6 +20,7 @@ NULL
 #' @param date_field string value. Default is "Date", otherwise defined by the value of \code{HeaderDateDDMMYYYYhhmmMeteo} geotop keyword. 
 #' @param sep string value. Default is \code{","}. See \code{\link{write.table}}.
 #' @param quote logical parameter. Default is \code{TRUE}. See \code{\link{write.table}}.
+#' @param level integer argument. See \code{\link{get.geotop.inpts.keyword.value}} for major details. Default is \code{NULL} and is ignored.  
 #' @param ... further argurments for \code{\link{write.table}}
 #' 
 #' 
@@ -28,8 +29,8 @@ NULL
 #' 
 #' library(geotopbricks)
 #' data(bondone)
-#' 
-#' create.geotop.meteo.files(x=meteo)
+#' ## Not Run - Uncomment te following line to run the example
+#' ## create.geotop.meteo.files(x=meteo)
 #' 
 #' 
 
@@ -46,12 +47,15 @@ NULL
 
 
 create.geotop.meteo.files <- function(x,format="%d/%m/%Y %H:%M",file_prefix="meteo",file_extension=".txt",formatter="%04d",na="-9999",
-		col.names=TRUE,row.names=FALSE,date_field="Date",sep=",",quote=FALSE,...) {
+		col.names=TRUE,row.names=FALSE,date_field="Date",sep=",",level=NULL,quote=FALSE,...) {
 		
 		
 		
 
 	if (!is.list(x)) x <- list(x)
+	if (is.null(level)) { level <- 1:length(x)}
+	if (length(level)<1) { level <- 1:length(x)}
+	if (is.na(level)) { level <- 1:length(x)}
 	
 	filename <- paste(file_prefix,formatter,sep="")
 	
@@ -65,7 +69,7 @@ create.geotop.meteo.files <- function(x,format="%d/%m/%Y %H:%M",file_prefix="met
 	for (i in 1:length(x)) { 
 				
 #		x[[i]] is a 'zoo' object 
-		filenamex <- sprintf(filename,i) 
+		filenamex <- sprintf(filename,level[i]) 
 		y <- x[[i]]
 		names <- names(y)
 		y <- cbind(index(y),as.data.frame(y))

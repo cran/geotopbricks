@@ -2,9 +2,8 @@
 \alias{write.ascii.vectorized.brick}
 \title{Writes a z-layer brick referred to a time instant (e.g. date) in an ascii format like \code{'geotop.inpts'} file.}
 \usage{
-  write.ascii.vectorized.brick(b, file = NULL,
-    header = NULL, overwrite = TRUE, NAflag = -9999,
-    matlab.syntax = FALSE, ...)
+write.ascii.vectorized.brick(b, file = NULL, header = NULL,
+  overwrite = TRUE, NAflag = -9999, matlab.syntax = FALSE, ...)
 }
 \arguments{
   \item{b}{a \code{\link{RasterBrick-class}} or
@@ -29,15 +28,15 @@
   \item{...}{further aguments inserted as attribute}
 }
 \value{
-  the string vector possibly written in \code{file}.
+the string vector possibly written in \code{file}.
 }
 \description{
-  Writes a z-layer brick referred to a time instant (e.g.
-  date) in an ascii format like \code{'geotop.inpts'} file.
+Writes a z-layer brick referred to a time instant (e.g.
+date) in an ascii format like \code{'geotop.inpts'} file.
 }
 \note{
-  Add Quote if necessary. This function is NOT mantained
-  and will be DEPRECATED.
+Add Quote if necessary. This function is NOT mantained and
+will be DEPRECATED.
 }
 \examples{
 ## Not Run
@@ -56,6 +55,6 @@
 ## bf <- abs(as.matrix(bb[[1]]-b[[1]]))<.Machine$double.eps^0.5
 }
 \seealso{
-  \code{\link{read.ascii.vectorized.brick}}
+\code{\link{read.ascii.vectorized.brick}}
 }
 

@@ -2,9 +2,8 @@
 \alias{create.geotop.inpts.keyword}
 \title{Creates an 'geotop.inpts'  files the keyword and their values of a date.frame like the one returned by \code{\link{declared.geotop.inpts.keywords}}}
 \usage{
-  create.geotop.inpts.keyword(df,
-    file = "geotop.inpts.copy", wpath = NULL,
-    comment.lines = "default", header = "default", ...)
+create.geotop.inpts.keyword(df, file = "geotop.inpts.copy", wpath = NULL,
+  comment.lines = "default", header = "default", ...)
 }
 \arguments{
   \item{df}{data frame returend by
@@ -26,14 +25,14 @@
   \code{\link{writeLines}}}
 }
 \description{
-  Creates an 'geotop.inpts' files the keyword and their
-  values of a date.frame like the one returned by
-  \code{\link{declared.geotop.inpts.keywords}}
+Creates an 'geotop.inpts' files the keyword and their
+values of a date.frame like the one returned by
+\code{\link{declared.geotop.inpts.keywords}}
 }
 \details{
-  In case \code{comment.lines} and \code{header} are set
-  equal to \code{"default"}, they are suitably modified
-  within the function code. See the example output.
+In case \code{comment.lines} and \code{header} are set
+equal to \code{"default"}, they are suitably modified
+within the function code. See the example output.
 }
 \examples{
 library(geotopbricks)
@@ -44,6 +43,6 @@ df <- declared.geotop.inpts.keywords(wpath=wpath)
 create.geotop.inpts.keyword(df=df)
 }
 \seealso{
-  \code{\link{writeLines}},\code{\link{declared.geotop.inpts.keywords}}
+\code{\link{writeLines}},\code{\link{declared.geotop.inpts.keywords}}
 }
 

@@ -2,7 +2,7 @@
 \alias{set.geotop.recovery.state}
 \title{This function re-writes the recovery ascii raster maps in a given folder}
 \usage{
-  set.geotop.recovery.state(rec, newRecFolder, ...)
+set.geotop.recovery.state(rec, newRecFolder, ...)
 }
 \arguments{
   \item{rec}{a \code{list} object returened by
@@ -14,16 +14,16 @@
   \item{...}{further arguments}
 }
 \description{
-  This function re-writes the recovery ascii raster maps in
-  a given folder
+This function re-writes the recovery ascii raster maps in a
+given folder
 }
 \examples{
 # See the examples of the 'get.geotop.recovery.state' function
 }
 \author{
-  Emanuele Cordano
+Emanuele Cordano
 }
 \seealso{
-  \code{\link{get.geotop.recovery.state}},\code{\link{writeRasterxGEOtop}}
+\code{\link{get.geotop.recovery.state}},\code{\link{writeRasterxGEOtop}}
 }
 

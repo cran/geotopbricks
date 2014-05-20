@@ -57,7 +57,7 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 
 	
 	if (!is.null(wpath)) {
-		
+					
 		file <- paste(wpath,inpts.file,sep="/") 
 		
 	} else {
@@ -66,13 +66,27 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 		
 	}
 	
+	
+#	if (str_sub(file,1,3)=='ssh' | str_sub(file,1,5)=='plink') {
+#		
+#		file <- pipe(file) # added line according to http://stackoverflow.com/posts/2226880/edit
+#		open <- TRUE
+#	}	else {
+#		print('qui')
+#		file <- file(file)
+#		open <- FALSE
+#	} ## commented line (to be removed) by ec 2014-05-20
+#	file <- file(file)
 	x <- readLines(file,warn=warn,...)
+	
+#	if (open) close(file)
 	
 	l <- nchar(x)
 	
 	x <- x[l>2] 
 	
 	xout <- str_split(x,comment)
+
 	
 	for (i in 1:length(xout)) {
 		
@@ -82,9 +96,13 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 	l <- nchar(x)
 	x <- x[l>2] 
 	x <- str_replace_all(x,c("\t"),"")
+	x <- x[!is.na(x)]
+	
+	
 #	x <- str_replace_all(x,c(" "),"")
 	split="="
-
+	x <- x[str_detect(x,split)]
+	
 	xout <- str_split(x,split)
 	
 	out <- as.data.frame(array(NA,c((length(xout)),2)))
@@ -113,6 +131,8 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 	
 	out$Value[!exc] <- str_replace_all(out$Value[!exc],c(" "),"")
 	
+	
+	out <- out[!is.na(out$Keyword),] ### correction by ec on 20131104 
 	out <- out[out$Keyword!="",] 
 	out <- out[out$Value!="",] 
 	
