@@ -21,15 +21,35 @@
 #'  In case the file name \code{filename} is missing and then \code{NULL}, it must be imported by the simulation \code{geotop.inpts} file.
 #' 
 #' 
+#' @importFrom rgdal showWKT
+#'
+#' @examples 
+#' 
+#' library(geotopbricks)
+#' 
+#' ## Simulation working path
+#'
+#' file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
+#' package="geotopbricks")
+#' snow <- raster(file)
 #' 
 #' 
+#' snowfile <- "./temporary/snow.asc"
+#' 
+#' dir.create("./temporary")
+#'  writeRasterxGEOtop(x=snow,file=snowfile)
+#' 
+#' 
+#' 
+
+
 
 
 
 writeRasterxGEOtop <- function(x,filename=NULL,overwrite=TRUE,NAflag=-9999.0,use.decimal.formatter=FALSE,start.from.zero=FALSE,keyword,wpath,suffix.ext=".asc",...) {
 
 	
-options(scipen=99999) # It remove cientific notation	
+options(scipen=99999) # It remove scientific notation	
  ## add write "brick" modality. 
  
  if (is.null(filename)) {
@@ -83,6 +103,24 @@ if (class(x)=="RasterBrick") {
  file.copy(from=namen[nlast],to=name,overwrite=TRUE)
 
  for (i in 1:nlast) file.remove(namen[i])
+
+## set prj 
+		fileprj <- str_replace(filename,".asc",".prj")
+		
+		if (fileprj!=filename) {
+		###	print(fileprj)
+		##	crs <- proj4string(x)
+			crs <- projection(x)
+			if (is.null(crs)) crs <- NA 
+			if (!is.na(crs)) { 
+		##		require("rgdal")
+				wkt <- rgdal::showWKT(crs)
+				writeLines(text=wkt,con=fileprj)
+			}
+		}
+
+	
+
 
 
 }

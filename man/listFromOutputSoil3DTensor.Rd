@@ -17,7 +17,7 @@ listFromOutputSoil3DTensor(x, when, layers = "SoilLayerThicknesses",
   on which the variable \code{x} is requested.}
 
   \item{layers}{number of soil layer or geotop keyword for
-  soil leyer (e.g. \code{SoilLayerThicknesses} or
+  soil layer (e.g. \code{SoilLayerThicknesses} or
   \code{SoilFile}). Default is
   \code{SoilLayerThicknesses}.}
 
@@ -26,11 +26,11 @@ listFromOutputSoil3DTensor(x, when, layers = "SoilLayerThicknesses",
   string corresponding to the geotop keyword in the inpts
   file. Default value is \code{"OutputSoilMaps"}.}
 
-  \item{suffix}{charcher string containing the decimal
+  \item{suffix}{charachter string containing the decimal
   formatter used by GEOtop in the output file names.
-  Default is "L%04dN%04.asc". A simple user is recommended
-  not to modify the value of this argument and use the
-  default value.}
+  Default is "L\%04dN\%04.asc". A simple user is
+  recommended not to modify the value of this argument and
+  use the default value.}
 
   \item{wpath,tz,use.read.raster.from.url}{see
   \code{\link{get.geotop.inpts.keyword.value}}}

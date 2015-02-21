@@ -61,4 +61,19 @@ name \code{filename} is missing and then \code{NULL}, it
 must be imported by the simulation \code{geotop.inpts}
 file.
 }
+\examples{
+library(geotopbricks)
+
+## Simulation working path
+
+file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
+package="geotopbricks")
+snow <- raster(file)
+
+
+snowfile <- "./temporary/snow.asc"
+
+dir.create("./temporary")
+ writeRasterxGEOtop(x=snow,file=snowfile)
+}
 
