@@ -78,7 +78,7 @@ geotopbrick.zoo <- function(x,layer=NULL,time=NULL,crs=NULL,timerange=NULL,...) 
 			out@ascpath <- x
 			out@layer <- as.character(layer)
 		
-			out@brick <- brick(x,layer=layer,time=time,crs=crs,...) 
+			out@brick <- raster::brick(x,layer=layer,time=time,crs=crs,...) 
 			out@index <- time		
 	
 			return(out)
@@ -97,6 +97,11 @@ NULL
 # @S3method geotopbrick RasterLayer
 #' @aliases geotopbrick.RasterLayer
 #' 
+#' 
+#' @importFrom methods new
+#' @importFrom methods callGeneric
+#' 
+#' 
 #' @export
 
 geotopbrick.RasterLayer <- function(x,layer=NULL,time=NULL,ascpath=zoo(NULL),...) {
@@ -105,7 +110,7 @@ geotopbrick.RasterLayer <- function(x,layer=NULL,time=NULL,ascpath=zoo(NULL),...
 	if (is.null(time))  time <- as.POSIXlt(character(0))
 	
 	out <- new("GeotopRasterBrick")
-	out@brick <- brick(x,...)
+	out@brick <- raster::brick(x,...)
 	out@ascpath <- ascpath
 	
 	

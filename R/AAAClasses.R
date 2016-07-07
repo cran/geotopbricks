@@ -1,12 +1,12 @@
 NULL
 #'
 #' A GeotopRasterBrick: an object to manage raster maps provied by GEOtop!!
-
+#' 
 #' @name zoo-class
 #' @rdname zoo-class
 #' @exportClass zoo 
 #' 
-#'   @keywords classes
+##   @keywords classes
 #' @examples showClass("zoo")
 
 

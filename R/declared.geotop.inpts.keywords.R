@@ -57,6 +57,9 @@ NULL
 declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comment="!",exceptions="Date",warn=FALSE,no.comment=c("!>!","!>>!"),...) {
 
 	
+	
+	
+	
 	if (!is.null(wpath)) {
 					
 		file <- paste(wpath,inpts.file,sep="/") 
@@ -78,7 +81,7 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 #		open <- FALSE
 #	} ## commented line (to be removed) by ec 2014-05-20
 #	file <- file(file)
-	x <- readLines(file,warn=warn,...)
+	x <- base::readLines(file,warn=warn,...)
 	
 #	if (open) close(file)
 	
@@ -142,6 +145,7 @@ declared.geotop.inpts.keywords <- function(wpath,inpts.file="geotop.inpts",comme
 		
 		
 	}
+	
 	
 	out$Value[!exc] <- str_replace_all(out$Value[!exc],c(" "),"")
 	

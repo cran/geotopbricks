@@ -54,10 +54,11 @@ NULL
 write.ascii.vectorized.brick <- function(b,file=NULL,header=NULL,overwrite=TRUE,NAflag=-9999,matlab.syntax=FALSE,...) {
 	
 	
-	l <- list(...)
+	
 	
 	if (class(b)=="GeotopRasterBrick") b <- brick(b)
 
+	l <- base::list(...)
 	l$xmx <- xmax(b)
 	l$ymx <- ymax(b)
 	l$xmn <- xmin(b)

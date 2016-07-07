@@ -10,11 +10,12 @@ NULL
 #' 
 #' @param keyword keyword name
 #' @param inpts.frame data frame returned by \code{\link{declared.geotop.inpts.keywords}} or \code{NULL}. Default is \code{NULL}.
-#' @param vector_sep character value for the separator chacter if Keyword Value must be returned as a vector, otherwise it is \code{NULL}. Default is \code{NULL}, but if \code{numeric} or \code{date} are \code{FALSE},  \code{vector_sep} is set \code{","} by default.
+#' @param vector_sep character value for the separator character if Keyword Value must be returned as a vector, otherwise it is \code{NULL}. Default is \code{NULL}, but if \code{numeric} or \code{date} are \code{FALSE},  \code{vector_sep} is set \code{","} by default.
+#' @param col_sep character value for the separator character of columuns. It is used if Keyword Value is returned as a data frema or  zoo object or list of these objects. Default is \code{NULL}, but is set \code{","}.
 #' @param numeric logical value. If \code{TRUE} the Value has numeric type, otherwise it is a string or string vector. Default is \code{FALSE}.
 #' @param date logical value. If \code{TRUE} the Value is retured as \code{\link{POSIXlt}} date, otherwise it is a string or string vector. Default is \code{FALSE}. 
 #' @param format string format representing the date, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"\%d/\%m/\%Y \%H:\%M"} (which is the format used in \code{geotop.inpts} keyword \code{InitDateDDMMYYYYhhmm})
-#' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"Etc/GMT+1"} (until the previous version it was \code{"A"}) which meens UTC +1.
+#' @param tz format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"Etc/GMT-1"} (until the previous version it was \code{"A"}) which meens UTC +1.
 #' @param raster logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link{Raster-class}} object built with \code{\link{raster}} method. 
 #' @param file_extension Extension to be added to the keyword if keyword is a file name. Default is \code{".asc"}
 #' @param wpath working directory containing GEOtop files (included the inpts file). It is mandatory if \code{raster} is \code{TRUE}. See \code{\link{declared.geotop.inpts.keywords}}.
@@ -31,7 +32,7 @@ NULL
 #' @param zlayer.formatter decimal formatter. It is used if \code{data.frame==TRUE} and the columns refers to different soil depths. Default is \code{NULL}. 
 #' @param z_unit z coordinate measurement unit. GEOtop values expressed in millimeters which are converted to centimeters by default. Default is \code{c("centimeters","millimeters")}. Otherwise can be the ratio between the unit and one meter. It is used if \code{zlayer.formatter=="z\%04d"} or similar.
 #' @param geotop_z_unit z coordinate measurement unit used by GEOtop. Default is \code{millimeters}. It is used if \code{zlayer.formatter=="z\%04d"} or similar.
-#' 
+#' @param add_suffix_dir character string. Add a suffix at the directory reported in the keyword value	 
 #' @param ContinuousRecovery integer value. Default is 0. It is used for tabular output data and is the number of times GEOtop simulation broke  during its running and was re-launched with 'Contiuous Recovery' option. 
 #' @param ContinuousRecoveryFormatter character string. Default is \code{'_crec\%04d'}. It is used only for tabular output data and if \code{ContinuousRecovery} is equal or greater than 1. 
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
@@ -42,6 +43,10 @@ NULL
 #' @return the keyword value 
 #' @import stringr 
 #' @import zoo
+#' 
+#' @importFrom utils read.table
+#' 
+#' 
 #' @examples
 #' 
 # library(stringr)  
@@ -111,14 +116,14 @@ NULL
 #' 
 #' 
 #' 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="Etc/GMT+1",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,ContinuousRecovery=0,ContinuousRecoveryFormatter="_crec%04d",zlayer.formatter=NULL,z_unit=c("centimeters","millimeters"),geotop_z_unit="millimeters",...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,col_sep=",",numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="Etc/GMT-1",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,ContinuousRecovery=0,ContinuousRecoveryFormatter="_crec%04d",zlayer.formatter=NULL,z_unit=c("centimeters","millimeters"),geotop_z_unit="millimeters",add_suffix_dir=NULL,...) {
 #####	check.columns=FALSE
 # Added by the author on Feb 6 2012	
 	
 	if (length(keyword)>1) {
 		out <- NULL
 		
-		out <- lapply(X=keyword,FUN=get.geotop.inpts.keyword.value,inpts.frame=inpts.frame,vector_sep=vector_sep,numeric=numeric,format=format,date=date,tz=tz,raster=raster,file_extension=file_extension,add_wpath=add_wpath,wpath=wpath,use.read.raster.from.url=use.read.raster.from.url,data.frame=data.frame,formatter=formatter,level=level,date_field=date_field,isNA=isNA,matlab.syntax=matlab.syntax,projfile=projfile,...)
+		out <- base::lapply(X=keyword,FUN=get.geotop.inpts.keyword.value,inpts.frame=inpts.frame,vector_sep=vector_sep,col_sep=col_sep,numeric=numeric,format=format,date=date,tz=tz,raster=raster,file_extension=file_extension,add_wpath=add_wpath,wpath=wpath,use.read.raster.from.url=use.read.raster.from.url,data.frame=data.frame,formatter=formatter,level=level,date_field=date_field,isNA=isNA,matlab.syntax=matlab.syntax,projfile=projfile,add_suffix_dir=add_suffix_dir,zlayer.formatter=zlayer.formatter,z_unit=z_unit,geotop_z_unit=geotop_z_unit,...)
 		names(out) <- keyword
 		
 		
@@ -127,16 +132,18 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 	
 	
 	
-	if (is.null(inpts.frame)) inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath,...)
+	if (is.null(inpts.frame)) inpts.frame <- geotopbricks::declared.geotop.inpts.keywords(wpath=wpath,...)
 
 	out <- inpts.frame$Value[inpts.frame$Keyword==keyword]
 
 	if (length(out)==0) {
-		print("Warning (get.geotop.inpts.keyword.value): keyword withot value:")
-		print(keyword)
+		mm00 <- sprintf("Warning (get.geotop.inpts.keyword.value): keyword %s without value:",keyword)
+		message(mm00)
 		return(NULL)
 		
 	}
+	
+	
 	len <- str_length(out)
 	
     
@@ -147,7 +154,22 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		len <- str_length(out)
 		if ((str_sub(out,len,len)=='\"') |  (str_sub(out,len,len)=='\''))  out <- str_sub(out,end=len-1)
 	}
+	
+	
+	if (!is.null(add_suffix_dir)) {
+		out_ <- str_split(out,"/",n=2)[[1]]
+		dir <- paste(out_[1],add_suffix_dir,sep="")
+		out <- paste(dir,out_[2],sep="/")
+		
+		
+		
+	}
+		
+	
+	
+	
 	if ((numeric | date) & (is.null(vector_sep))) vector_sep <- "," 
+	
 	
 	if (!is.null(vector_sep)) {
 		if (numeric | matlab.syntax) {
@@ -158,6 +180,8 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		}
 		
 		out <- (str_split(out,vector_sep))[[1]]
+		
+		
 		
 		if (matlab.syntax) { 
 			out <- str_replace_all(out,"\'","")
@@ -257,7 +281,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 			 
 			 
 			filepath <- c(filepath,filecrecpath)
-			 
+			#print(filepath)  ### HERE EC 20151215
 			 
 		 }
 		 out <- filepath
@@ -315,10 +339,10 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 #			 }
 			
 			 file <- file(x)
-			 temp <- read.table(file,header=TRUE,sep=",")
+			 temp <- read.table(file,header=TRUE,sep=col_sep,na.strings=isNA)
 			 
 			 i_index <- which(names(temp)==date_field)
-			 if (length(i_index>1)) {
+			 if (length(i_index)>1) { ## ec 20151215
 				 
 				 if (is.numeric(isNA) & length(isNA)==1) temp[,-i_index][temp[,-i_index]<=isNA] <- NA # added on 6 dec 2012
 			 
@@ -328,10 +352,12 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		#####
 		
 		
-		
+			#str(temp)
+##print("ba")
 			 if (!is.null(date_field) & !is.na(date_field) & length(i_index)==1 & length(date_field)>0 & (!ContinuousRecoveryCond)) {
 				
 				 index <- temp[,i_index]
+				
 				 temp<- temp[,-i_index]
 				 index <- as.POSIXlt(index,format=format,tz=tz)
 				 temp <- as.zoo(temp)
@@ -375,21 +401,36 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 			 
 			 names_keys <- paste(keyword,formatter,sep="")
 			 names_keys <- sprintf(names_keys,1:length(names_points))
-			 out <- lapply(X=names_keys, FUN=function(x,list){
-						 
+			 out <- base::lapply(X=names_keys, FUN=function(x,list,i_index){
+				
+				if (is.null(i_index)) i_index <- NA
+				if (length(i_index)<1) i_index <- NA
+				if (length(i_index)>1) i_index <- i_index[1]
 				index <- str_detect(names(list),x)
 				list <- list[index]	 
 					
 				out <- list[[1]]
-					
+				#print("bb")
+				#str(out)	
 				for (it in list[-1]) {
 						
-					out <- rbind(out,it)
+					#str(it)
+					if (!is.na(i_index)) {
+						
+					#	print(it[,i_index] %in% out[,i_index][1:10])
+					#	print(it[1:10])
+						itl <- it[!((it)[,i_index] %in% out[,i_index]),]
+						
+						out <- rbind(out,itl)
+					}	else {
+						
+					    out <- rbind(out,it) ## ec 20151215
+					}
 				}
-					
+				
 				return(out)	 
 					 
-			},list=out)  
+			},list=out,i_index=i_index)  
 			 
 			for (i in 1:length(out)) {
 				
@@ -399,6 +440,15 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 					index <- temp[,i_index]
 					temp<- temp[,-i_index]
 					index <- as.POSIXlt(index,format=format,tz=tz)
+					
+					#print(x)
+					###print(index)
+					#print(index[1:10])
+					#print(sort(index)[1:10])
+					#print(which(index!=sort(index)))
+					#print(index[which(index!=sort(index))])
+					#print(length(index))
+					#print(index[length(index)-11+1:10])
 					temp <- as.zoo(temp)
 					index(temp) <- index
 					# insert sart date & date
@@ -449,7 +499,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 				 
 				 zu <- geotop_z_unit/z_unit
 				 
-				 out <- lapply(X=out,FUN=function(x,zfrm,zu){
+				 out <- base::lapply(X=out,FUN=function(x,zfrm,zu){
 							 
 							 out <- x[,str_detect(names(x),"X")]
 							 

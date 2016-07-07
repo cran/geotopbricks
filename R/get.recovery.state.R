@@ -20,7 +20,8 @@ NULL
 #' @param xx charcter String. Default is \code{"0000"}
 #' @param extension file estension used for asccii recovery map files. It must contains \code{'.'} as the first character. Defaut is \code{".asc"} . 
 #' @param formatter string character for the the decimal formatter to be used. Default is \code{"L\%04d"}.
-#' @param nsoillayers number of soil layers used in the GEOtop simulation
+#' @param nsoillayers number of soil layers used in the GEOtop simulation.
+#' @param layersFromDir logical value. If is \code{TRUE} the number of soil/snow (vertical) layers used in the GEOtop simulation is automatically calculated and cannot be assigned through \code{nsoillayers}.
 #' @param ... further arguments 
 #' 
 #' @return a \code{list} object containining all recovery raster maps. 
@@ -48,7 +49,7 @@ NULL
 
 
 
-get.geotop.recovery.state <- function(recFolder,xx="0000",formatter="L%04d",extension=".asc",nsoillayers=10,...) {
+get.geotop.recovery.state <- function(recFolder,xx="0000",formatter="L%04d",extension=".asc",nsoillayers=10,layersFromDir=FALSE,...) {
 
 
 	names<-c("RainOnCanopy","SnowAge","SnowIceContent","SnowLayersNumber","SnowLiqWaterContent","SnowOnCanopy","SnowTemperature","SnowThickness","SoilChannelIceContent","SoilChannelPressure","SoilChannelTemperature","SoilIceContent","SoilPressure","SoilTemperature","VegTemperature")      
@@ -67,12 +68,20 @@ get.geotop.recovery.state <- function(recFolder,xx="0000",formatter="L%04d",exte
 #	## ##print(files)
 	out <- list()
 	
+	if (layersFromDir==TRUE)  {
+		
+		nsoillayers <-  "FromDir"
+		nsnowlayers <-  "FromDir"
+		
+	} 
+		
+		
 	for (it in names[noLayers]) {
 		
 		
 
 		x <- as.character(files_w[names==it])
-		 print(x)
+		# print(x)
 		out[it] <- raster(x)
 		
 		
@@ -92,11 +101,14 @@ get.geotop.recovery.state <- function(recFolder,xx="0000",formatter="L%04d",exte
 	
 	}
 	
-	# number of snow leyers is detected by raster layer 'out$SnowLayersNumber'
-	out$SnowLayersNumber <- setMinMax(out$SnowLayersNumber)
-	nsnowlayers <- maxValue(out$SnowLayersNumber)
-	nsnowlayers[nsnowlayers<1] <- 1
+	# number of snow layers is detected by raster layer 'out$SnowLayersNumber'
+	if (layersFromDir==FALSE) {
+		
 	
+		out$SnowLayersNumber <- setMinMax(out$SnowLayersNumber)
+		nsnowlayers <- maxValue(out$SnowLayersNumber)
+		nsnowlayers[nsnowlayers<1] <- 1
+	}
 	for (it in names[snowLayers]) {
 		
 
