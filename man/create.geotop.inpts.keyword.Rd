@@ -4,8 +4,8 @@
 \alias{create.geotop.inpts.keyword}
 \title{Creates an 'geotop.inpts'  files the keyword and their values of a date.frame like the one returned by \code{\link{declared.geotop.inpts.keywords}}}
 \usage{
-create.geotop.inpts.keyword(df, file = "geotop.inpts.copy", wpath = NULL,
-  comment.lines = "default", header = "default", ...)
+create.geotop.inpts.keyword(df, file = "geotop.inpts.copy",
+  wpath = NULL, comment.lines = "default", header = "default", ...)
 }
 \arguments{
 \item{df}{data frame returend by \code{\link{declared.geotop.inpts.keywords}}}
@@ -31,16 +31,15 @@ See the example output.
 \examples{
 
 library(geotopbricks)
-
+\dontrun{
 #Simulation working path
-wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
+wpath <- 'https://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
 df <- declared.geotop.inpts.keywords(wpath=wpath)
 create.geotop.inpts.keyword(df=df)
-
+}
 
 
 }
 \seealso{
 \code{\link{writeLines}},\code{\link{declared.geotop.inpts.keywords}}
 }
-

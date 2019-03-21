@@ -35,6 +35,8 @@ NULL
 #' @param add_suffix_dir character string. Add a suffix at the directory reported in the keyword value	 
 #' @param ContinuousRecovery integer value. Default is 0. It is used for tabular output data and is the number of times GEOtop simulation broke  during its running and was re-launched with 'Contiuous Recovery' option. 
 #' @param ContinuousRecoveryFormatter character string. Default is \code{'_crec\%04d'}. It is used only for tabular output data and if \code{ContinuousRecovery} is equal or greater than 1. 
+#' @param header.only logical value. Default is \code{FALSE}. If it is \code{TRUE} and \code{data.frame==TRUE}, only file hedaer  with variable names is returned by the function.
+#' @param MAXNROW maximum number accepted for \code{data.frema} output. Default is 4. It is used in case of \code{data.frame==TRUE}. In case the number of records in the function output is less than \code{MAXNROW} , function returns neither \code{data.frame} nor \code{zoo} objects but only the keyword value.
 #' @param ... further arguments of \code{\link{declared.geotop.inpts.keywords}} 
 #' 
 #' @export 
@@ -53,9 +55,10 @@ NULL
 #' library(geotopbricks)
 #' 
 #' #Simulation working path
-#### wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
-#' wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
- ###  wpath <- 'http://meteogis.fmach.it/idroclima//panola13_run2xC_test3'
+#'  \dontrun{
+#' 
+#' wpath <- 'https://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
+#'  
 #' prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath)
 #' 
 #' slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath) 
@@ -87,27 +90,27 @@ NULL
 #' # Uncomment the following lises to run the R code: 
 #' 
 #' ## set meteo data
-#' 
+#' }
 #' 
 #'  \dontrun{
-#' # meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
-#' #       level=level,start_date=start,end_date=end)
+#'  meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+#'        level=level,start_date=start,end_date=end)
 #' }
 #' 
 #' ##### end set meteo data
 #' 
 #' ## IMPORTING AN OUTPUT SOIL MOISTURE PROFILE: 
 #' 
-#'  wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/Muntatschini_pnt_1_225_B2_004'
+#'  wpath <- 'https://www.rendena100.eu/public/geotopbricks/simulations/Muntatschini_pnt_1_225_B2_004'
 #' 
 #' \dontrun{
-#' #	SMC  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
-#' #          wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
-#' #          formatter="%04d")
-#' #
-#' #    SMCz  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
-#' #         wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
-#' #          formatter="%04d",zlayer.formatter="z%04d")
+#' 	SMC  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
+#'           wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
+#'           formatter="%04d")
+#' 
+#'     SMCz  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
+#'          wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
+#'           formatter="%04d",zlayer.formatter="z%04d")
 #' }
 #' 
 #' 
@@ -116,14 +119,14 @@ NULL
 #' 
 #' 
 #' 
-get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,col_sep=",",numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="Etc/GMT-1",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,ContinuousRecovery=0,ContinuousRecoveryFormatter="_crec%04d",zlayer.formatter=NULL,z_unit=c("centimeters","millimeters"),geotop_z_unit="millimeters",add_suffix_dir=NULL,...) {
+get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=NULL,col_sep=",",numeric=FALSE,format="%d/%m/%Y %H:%M",date=FALSE,tz="Etc/GMT-1",raster=FALSE,file_extension=".asc",add_wpath=FALSE,wpath=NULL,use.read.raster.from.url=TRUE,data.frame=FALSE,formatter="%04d",level=1,date_field="Date",isNA=-9999.000000,matlab.syntax=TRUE,projfile="geotop.proj",start_date=NULL,end_date=NULL,ContinuousRecovery=0,ContinuousRecoveryFormatter="_crec%04d",zlayer.formatter=NULL,z_unit=c("centimeters","millimeters"),geotop_z_unit="millimeters",add_suffix_dir=NULL,MAXNROW=4,header.only=FALSE,...) {
 #####	check.columns=FALSE
 # Added by the author on Feb 6 2012	
 	
 	if (length(keyword)>1) {
 		out <- NULL
 		
-		out <- base::lapply(X=keyword,FUN=get.geotop.inpts.keyword.value,inpts.frame=inpts.frame,vector_sep=vector_sep,col_sep=col_sep,numeric=numeric,format=format,date=date,tz=tz,raster=raster,file_extension=file_extension,add_wpath=add_wpath,wpath=wpath,use.read.raster.from.url=use.read.raster.from.url,data.frame=data.frame,formatter=formatter,level=level,date_field=date_field,isNA=isNA,matlab.syntax=matlab.syntax,projfile=projfile,add_suffix_dir=add_suffix_dir,zlayer.formatter=zlayer.formatter,z_unit=z_unit,geotop_z_unit=geotop_z_unit,...)
+		out <- base::lapply(X=keyword,FUN=get.geotop.inpts.keyword.value,inpts.frame=inpts.frame,vector_sep=vector_sep,col_sep=col_sep,numeric=numeric,format=format,date=date,tz=tz,raster=raster,file_extension=file_extension,add_wpath=add_wpath,wpath=wpath,use.read.raster.from.url=use.read.raster.from.url,data.frame=data.frame,formatter=formatter,level=level,date_field=date_field,isNA=isNA,matlab.syntax=matlab.syntax,projfile=projfile,add_suffix_dir=add_suffix_dir,zlayer.formatter=zlayer.formatter,z_unit=z_unit,geotop_z_unit=geotop_z_unit,MAXNROW=MAXNROW,header.only=header.only,...) 
 		names(out) <- keyword
 		
 		
@@ -224,6 +227,54 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		
 		
 		
+	} else if ((header.only==TRUE) & (data.frame==TRUE)) {
+		
+		if (file_extension==".asc" | file_extension=="asc") file_extension=".txt"
+		
+		keyword <- out
+		out <- paste(wpath,out,sep="/")
+		
+		if (is.null(formatter) | is.null(level) | length(level)<1) {
+			
+			formatter <- ""
+		} else {
+			
+			formatter <- array(formatter,length(level)) 
+			for (i in 1:length(level)) {
+				
+				formatter[i] <- sprintf(formatter[i],level[i])
+				
+			} 
+			
+			
+		}	  
+		
+		out <- paste(out,formatter,sep="")
+		
+		if (str_sub(file_extension,1,1)==".")  {
+			filepath <- paste(out,file_extension,sep="")
+		#	filecrec_extension=paste(ContinuousRecoveryFormatter,file_extension,sep="") ## Continous Recovery Option 
+		#	filecrecpath <- paste(out,filecrec_extension,sep="")
+		} else { 	
+			filepath <- paste(out,file_extension,sep=".") 
+		#	filecrec_extension=paste(ContinuousRecoveryFormatter,file_extension,sep=".") ## Continous Recovery Option 
+		#	filecrecpath <- paste(out,filecrec_extension,sep=".")
+		}
+		
+		out <- filepath
+		
+		file <- file(out)
+		temp <- read.table(file,header=TRUE,sep=col_sep,na.strings=isNA,nrows=1)
+		out <- names(temp)
+		out <- out[!(out %in% date_field)]
+	#	out <- readLines(out,n=1)
+	###	out <- str_replace(out,"[\.]",".")
+	#	out <- str_split(out,col_sep)[[1]]
+	#	df <- as.data.frame(array(NA,c(1,length(out))))
+	#	names(df) <- out 
+		
+	#	out <- df 
+	#	out <- filepath
 	} else if (data.frame) {
 		
 		if (file_extension==".asc" | file_extension=="asc") file_extension=".txt"
@@ -342,13 +393,14 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 			 temp <- read.table(file,header=TRUE,sep=col_sep,na.strings=isNA)
 			 
 			 i_index <- which(names(temp)==date_field)
-			 if (length(i_index)>1) { ## ec 20151215
-				 
+		
+			 if (length(i_index)>=1) { ## ec 20170107 ## ec 20151215
+				
 				 if (is.numeric(isNA) & length(isNA)==1) temp[,-i_index][temp[,-i_index]<=isNA] <- NA # added on 6 dec 2012
 			 
 			
 			 }	
-		
+			
 		#####
 		
 		
@@ -504,7 +556,8 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 							 out <- x[,str_detect(names(x),"X")]
 							 
 							 zval <- as.numeric(str_replace(names(out),"X",""))*zu
-							 
+							 zval <- ceiling(zval)
+							
 							 names(out) <- sprintf(zfrm,zval)
 							 
 							 return(out)
@@ -518,6 +571,12 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 }
 		 
 		 if (length(out)==1) out <- out[[1]] ## added by EC on 20150313
+		 
+		 if (is.data.frame(out) | is.zoo(out)) if (nrow(out)<MAXNROW) {
+			 
+			 out <- NULL
+			 
+		 }
 	} else 	if (add_wpath) {
 		
 		if (!is.null(wpath)) out <- paste(wpath,out,sep="/")

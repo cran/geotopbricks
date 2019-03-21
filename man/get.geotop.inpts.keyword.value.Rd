@@ -9,12 +9,13 @@ get.geotop.inpts.keyword.value(keyword, inpts.frame = NULL,
   format = "\%d/\%m/\%Y \%H:\%M", date = FALSE, tz = "Etc/GMT-1",
   raster = FALSE, file_extension = ".asc", add_wpath = FALSE,
   wpath = NULL, use.read.raster.from.url = TRUE, data.frame = FALSE,
-  formatter = "\%04d", level = 1, date_field = "Date", isNA = -9999,
-  matlab.syntax = TRUE, projfile = "geotop.proj", start_date = NULL,
-  end_date = NULL, ContinuousRecovery = 0,
+  formatter = "\%04d", level = 1, date_field = "Date",
+  isNA = -9999, matlab.syntax = TRUE, projfile = "geotop.proj",
+  start_date = NULL, end_date = NULL, ContinuousRecovery = 0,
   ContinuousRecoveryFormatter = "_crec\%04d", zlayer.formatter = NULL,
-  z_unit = c("centimeters", "millimeters"), geotop_z_unit = "millimeters",
-  add_suffix_dir = NULL, ...)
+  z_unit = c("centimeters", "millimeters"),
+  geotop_z_unit = "millimeters", add_suffix_dir = NULL, MAXNROW = 4,
+  header.only = FALSE, ...)
 }
 \arguments{
 \item{keyword}{keyword name}
@@ -71,6 +72,10 @@ get.geotop.inpts.keyword.value(keyword, inpts.frame = NULL,
 
 \item{add_suffix_dir}{character string. Add a suffix at the directory reported in the keyword value}
 
+\item{MAXNROW}{maximum number accepted for \code{data.frema} output. Default is 4. It is used in case of \code{data.frame==TRUE}. In case the number of records in the function output is less than \code{MAXNROW} , function returns neither \code{data.frame} nor \code{zoo} objects but only the keyword value.}
+
+\item{header.only}{logical value. Default is \code{FALSE}. If it is \code{TRUE} and \code{data.frame==TRUE}, only file hedaer  with variable names is returned by the function.}
+
 \item{...}{further arguments of \code{\link{declared.geotop.inpts.keywords}}}
 }
 \value{
@@ -87,7 +92,10 @@ If \code{inpts.frame} is \code{NULL}, \code{inpts.frame} will be obtained by cal
 library(geotopbricks)
 
 #Simulation working path
-wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
+ \dontrun{
+
+wpath <- 'https://www.rendena100.eu/public/geotopbricks/simulations/panola13_run2xC_test3'
+ 
 prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath)
 
 slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath) 
@@ -119,27 +127,27 @@ level <- 1:nmeteo
 # Uncomment the following lises to run the R code: 
 
 ## set meteo data
-
+}
 
  \dontrun{
-# meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
-#       level=level,start_date=start,end_date=end)
+ meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
+       level=level,start_date=start,end_date=end)
 }
 
 ##### end set meteo data
 
 ## IMPORTING AN OUTPUT SOIL MOISTURE PROFILE: 
 
- wpath <- 'http://www.rendena100.eu/public/geotopbricks/simulations/Muntatschini_pnt_1_225_B2_004'
+ wpath <- 'https://www.rendena100.eu/public/geotopbricks/simulations/Muntatschini_pnt_1_225_B2_004'
 
 \dontrun{
-#	SMC  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
-#          wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
-#          formatter="\%04d")
-#
-#    SMCz  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
-#         wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
-#          formatter="\%04d",zlayer.formatter="z\%04d")
+	SMC  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
+          wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
+          formatter="\%04d")
+
+    SMCz  <- get.geotop.inpts.keyword.value("SoilLiqContentProfileFile",
+         wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
+          formatter="\%04d",zlayer.formatter="z\%04d")
 }
 
 
@@ -149,4 +157,3 @@ level <- 1:nmeteo
 
 
 }
-

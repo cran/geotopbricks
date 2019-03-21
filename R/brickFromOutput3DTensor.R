@@ -131,56 +131,31 @@ NULL
 #' @examples 
 #' 
 #' library(geotopbricks)
+#' \dontrun{
 #' # The data containing in the link are only for educational use
-#' wpath <- "http://www.rendena100.eu/public/geotopbricks/simulations/idroclim_test1"
+#' wpath <- "https://www.rendena100.eu/public/geotopbricks/simulations/idroclim_test1"
 #' x <- "SoilLiqContentTensorFile"
-#' tz <-  "Etc/GMT+1"
+#' tz <-  "Etc/GMT-1"
 #' when <- as.POSIXct("2002-03-22",tz=tz)
 #' 
 #' # Not Run because it elapses too long time!!! 
 #' # Please Uncomment the following lines to run by yourself!!!
-#' # b <- brickFromOutputSoil3DTensor(x,when=when,wpath=wpath,tz=tz,use.read.raster.from.url=TRUE)
+#'  b <- brickFromOutputSoil3DTensor(x,when=when,wpath=wpath,tz=tz,use.read.raster.from.url=TRUE)
 #' 
 #' # a 2D map: 
 #' x_e <- "SnowDepthMapFile"
 #' # Not Run: uncomment the following line
-#' # m <- rasterFromOutput2DMap(x_e,when=when,wpath=wpath,timestep="OutputSnowMaps",
-#' #                            tz=tz,use.read.raster.from.url=TRUE)
+#' 
+#' m <- rasterFromOutput2DMap(x_e,when=when,wpath=wpath,timestep="OutputSnowMaps",
+#'                             tz=tz,use.read.raster.from.url=TRUE)
 #' ## NOTE: set use.read.raster.from.url=FALSE (default) 
 #' # if the "wpath" directorty is in the local file system.
 #' # Not Run: uncomment the following line
-#' # plot(m)
-#'
+#' plot(m)
+#' }
 
-#
-#SoilLiqContentTensorFile
-#
-#
-#SoilLiqContentTensorFile 
-#
-#Name of the ensamble of raster maps corresponding to the liquid water
-#content of each layer (if PlotSoilDepth6=0 it writes the value at the
-#corresponding depths)
-#
-#SoilLiqWaterPressTensorFile 
-#
 
-#
-#SoilTempTensorFile Name of the ensamble of raster maps corresponding to the temperature
-#of each layer (if PlotSoilDepth6=0 it writes the value at the corresponding
-#depths)
-#SoilAveragedTempTensorFile Name of the ensamble of raster maps corresponding to the average temperature
-#of each layer (if PlotSoilDepth6=0 it writes the value at the
-#corresponding depths)
-#IceLiqContentTensorFile Name of the ensamble of raster maps corresponding to the average ice
-#content of each layer (if PlotSoilDepth6=0 it writes the value at the corresponding
-#depths)
-#Table 15.10: Keywords of print output tensor maps for soil and
-#
-#
-#
-#
-##
+
 
 
 
@@ -197,7 +172,7 @@ brickFromOutputSoil3DTensor <- function(x,when,layers="SoilLayerThicknesses",one
 			projfile <- paste(wpath,projfile,sep="/")
 			
 			
-			cond <- file.exists(projfile) | use.read.raster.from.url
+			cond <- file.exists(projfile) ###| use.read.raster.from.url
 			crs <- getProjection(projfile,cond=cond)
 		#	if (cond) {
 		#	#	crs <- readLines(projfile,warn=FALSE)

@@ -11,12 +11,14 @@ NULL
 #' @return A string corresponding the projection and CRS if the argument \code{cond} is \code{TRUE}. 
 #' @examples 
 #' library(geotopbricks)
-#' wpath <- "http://www.rendena100.eu/public/geotopbricks/simulations/idroclim_test1"
+#' wpath <- "https://www.rendena100.eu/public/geotopbricks/simulations/idroclim_test1"
+#' \dontrun{
+#' 
 #' x <- paste(wpath,"geotop.proj",sep="/")
 #' 
 #' 
 #' crs <- getProjection(x)
-#' 
+#' }
 
 getProjection <- function(x,cond=TRUE,...) {
 	
