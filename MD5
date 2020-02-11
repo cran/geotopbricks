@@ -1,4 +1,4 @@
-6ed6e628bad8d299955e6eea4a456065 *DESCRIPTION
+b02f48a3b87e05f97039c0bd582ce7ec *DESCRIPTION
 d4ee0b997a84a31a78186f2bd46dd56b *NAMESPACE
 eafaa15c1c33feb275262f87fcf8ecdb *R/AAAClasses.R
 e393d665be6609c272eb4fc9dfc61753 *R/KML.GeotopRasterBrick.R
@@ -17,8 +17,8 @@ df5cc50c656fa56d033be6f2b09a354a *R/geotopbrick_S3.R
 b6ffa982903fb5d7f9ccbcc51d463a1f *R/get.recovery.state.R
 05de057e2194fce832f18e97aa3fd8bb *R/getProjection.R
 479e32ccbb4cb45a288b772b50c34154 *R/getvalues.brick.at.depth.R
-008b8ab128e75f56ac94d0e6a72aa867 *R/max_value.R
-bcc5c26625f4fb8f3c7c8d4cd50eb6fb *R/min_value.R
+e5822086ff6a0b1f69c48a2714f19bca *R/max_value.R
+1c47cf117ff38f07acae0417bf09a719 *R/min_value.R
 827c66c8a6dcdc8cd1c5bc3571fa5064 *R/ops.GeotopRasterBrick.R
 26ff32ff9adac1f64b97ba09c9609c5c *R/plot.GeotopRasterBrick.R
 1a50c94172c8cd5ba6cd8145b0b53112 *R/pointer.to.2Dmaps.R
@@ -31,9 +31,9 @@ e73d87213e206aebe34e60803d681822 *R/replace.keyword.v0.R
 328cfc8d26cfb02b37dd43344e3435bb *R/write.geotop.table.R
 664da7cea731fdc7e35483dd8b3b7442 *R/write.vectorized.geotop.recovery.R
 5f448f65689612e43d5d07c875434498 *R/write.vectorized.variable.in.string.R
-14d2e0d1a02c5e47dc41d0ed4dd69dfd *R/writeRasterxgeotop.R
+5273f5ccb56a7a467895165e074004d3 *R/writeRasterxgeotop.R
 26d6a0324df42f965a5c0777b36c1e5b *README.md
-c0ea84195ec10ef9c2d4d36124e48a28 *data/bondone.rda
+a32abfbea7bea3e8e35ca94f0604a7c0 *data/bondone.rda
 5233b98110f087c4ea2fe93733d7af9f *data/datalist
 9495cf5e1c8f013b34892230cfb943e7 *inst/brick3DTensor-test/output/alt_snow_vs_time_daily.csv
 120a1b6967f65c3305db9f5e62aa1b3b *inst/brick3DTensor-test/rendena_snowalt.R
@@ -166,7 +166,7 @@ a0fb2b33d18e0c3c898baf183467a506 *man/GeotopRasterBrick-class.Rd
 3435f49c170d6c111004a369a6940197 *man/KML-methods.Rd
 8b056d6a9d47f4f75a11ad33dcf01d4d *man/Ops-methods.Rd
 d2d075b001780323db953aec4402a5fe *man/argsParser.Rd
-8931dc14fcbdb53c787da7d8e43e7955 *man/bondone.Rd
+49a755426d9d64785c9498d978ef9f80 *man/bondone.Rd
 e83ee647e3111986a0a5b293aa267648 *man/brick-methods.Rd
 d8a1cb730d2febb8cacef99e5192ad59 *man/brick.decimal.formatter.Rd
 fa37bafd1d918b5d4375fab0905babd4 *man/brickFromOutputSoil3DTensor.Rd
@@ -180,8 +180,8 @@ ddaf41d5b7f5fc48fa78864dffbbf78b *man/color.bar.raster.Rd
 a9d420aba35477a937d21066855cea62 *man/get.geotop.recovery.state.Rd
 97b4d33b6ef670b408813aeee35ad7c9 *man/getProjection.Rd
 6e7bec20375ae365acaaba157bd21204 *man/getvalues.brick.at.depth.Rd
-dfc833de221061f1380c5541a1449b0d *man/max_value.Rd
-06e9bc6083804b34683069726da801b2 *man/min_value.Rd
+46eed7639cf0ab1f8f1cdd7b3dee7f22 *man/max_value.Rd
+60b056475deea92c6ee6a1361fbe4001 *man/min_value.Rd
 5d293964ef30b7a6702cf08a48e34809 *man/plot-methods.Rd
 00862d60bed9bca74197f79c34ddb275 *man/pointer.to.maps.xyz.time.Rd
 9d3d1aac6947dd4f697381c0e766ff9b *man/read.ascii.vectorized.brick.Rd
@@ -194,5 +194,5 @@ ef337f8f26912fe39739d8d26ec69250 *man/set.geotop.recovery.state.Rd
 7eb8de3bf2bd688ea0231b558c86ed07 *man/write.geotop.table.Rd
 92bc6d0a3b6a0f88acdd07fabb695093 *man/write.vectorized.geotop.recovery.Rd
 b81368ec0b942c6db0abca32e6befb49 *man/write.vectorized.variable.in.string.Rd
-f45d38d70c70674046b83245cabf9bf4 *man/writeRasterxGEOtop.Rd
+69a0afb60d1d4fe537724fc1e2928c49 *man/writeRasterxGEOtop.Rd
 6c71a15dbf855b983c719b9c418e0c96 *man/zoo-class.Rd
