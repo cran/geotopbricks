@@ -21,16 +21,16 @@
 #'  In case the file name \code{filename} is missing and then \code{NULL}, it must be imported by the simulation \code{geotop.inpts} file.
 #' 
 #' 
-#' @importFrom rgdal showWKT
-#'
+# @importFrom rgdal showWKT
+#' @importFrom terra rast
 #' @examples 
 #' 
 #' library(geotopbricks)
 #' 
 #' ## Simulation working path
 #'
-#' file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
-#' package="geotopbricks")
+#' file <- paste0("https://raw.githubusercontent.com/ecor/geotopbricks_doc/master/template/",
+#' "rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc")
 #' snow <- raster(file)
 #' 
 #' 
@@ -59,7 +59,7 @@ options(scipen=99999) # It remove scientific notation
 	 
  }
  
-if (class(x)=="RasterBrick") {
+if (is(x,"RasterBrick")) {
 
 	if ((length(filename)!=nlayers(x)) | (use.decimal.formatter) ) {
 		
@@ -87,7 +87,7 @@ if (class(x)=="RasterBrick") {
 } 
  
  
- raster::writeRaster(x=x,filename=filename,overwrite=overwrite,NAflag=NAflag,...)
+ terra::writeRaster(x=rast(x),filename=filename,overwrite=overwrite,NAflag=NAflag,...) ## EC2023040
 
 # CORRECT THE HEADER 
 
@@ -108,22 +108,24 @@ if (class(x)=="RasterBrick") {
 		## fileprj <- str_replace(filename,".asc",".prj")
 		# ec 20150412
 
-		fileprj <- filename
+	fileprj <- filename
 		extension(fileprj) <- ".prj"
 
-		if (fileprj!=filename) {
-		###	print(fileprj)
-		##	crs <- proj4string(x)
-			crs <- projection(x)
-			if (is.null(crs)) crs <- NA 
-			if (!is.na(crs)) { 
-		##		require("rgdal")
-				wkt <- rgdal::showWKT(crs)
-				writeLines(text=wkt,con=fileprj)
-			}
-		}
-
-	
+	### EC 20230414 COMMENT HERE 
+		
+	# if (fileprj!=filename) {
+	# 	###	print(fileprj)
+	# 	##	crs <- proj4string(x)
+	# if (is.null(crs)) crs <- NA 
+	# 		if (!is.na(crs)) { 
+	# 	##		require("rgdal")
+	# 			wkt <- rgdal::showWKT(crs)
+	# 			writeLines(text=wkt,con=fileprj)
+	# 		}
+	# 	}
+  
+    ### EC 20230414 COMMENT HERE 
+		
 
 
 

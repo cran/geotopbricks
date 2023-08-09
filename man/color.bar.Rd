@@ -4,22 +4,32 @@
 \alias{color.bar}
 \title{Graphic Representation of a Color bar, function written by John Colby}
 \usage{
-color.bar(lut, min, max = -min, nticks = 11, ticks = seq(min, max,
-  len = nticks), title = "", width = 1.75, height = 5,
-  ncolmax = 100, digits = 4, pdf = NULL)
+color.bar(
+  lut,
+  min,
+  max = -min,
+  nticks = 11,
+  ticks = seq(min, max, len = nticks),
+  title = "",
+  width = 1.75,
+  height = 5,
+  ncolmax = 100,
+  digits = 4,
+  pdf = NULL
+)
 }
 \arguments{
-\item{lut}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{lut}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
-\item{min}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{min}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
-\item{max}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{max}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
-\item{nticks}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{nticks}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
-\item{ticks}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{ticks}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
-\item{title}{see reference \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
+\item{title}{see reference \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}}
 
 \item{width, height}{width and height of the device}
 
@@ -33,7 +43,7 @@ color.bar(lut, min, max = -min, nticks = 11, ticks = seq(min, max,
 Graphic Representation of a Color bar, function written by John Colby
 }
 \note{
-This function is taken from \url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}. Plese visit the URL for major details and give your feedback if possible.
+This function is taken from \url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}. Plese visit the URL for major details and give your feedback if possible.
 }
 \examples{
 color.bar(colorRampPalette(c("light green", "yellow", "orange", "red"))(100), -1)
@@ -42,8 +52,8 @@ color.bar(colorRampPalette(c("light green", "yellow", "orange", "red"))(100), -1
 
 }
 \references{
-\url{http://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}
+\url{https://stackoverflow.com/questions/9314658/colorbar-from-custom-colorramppalette}
 }
 \author{
-John Colby \url{http://stackoverflow.com/users/412342/john-colby}
+John Colby \url{https://stackoverflow.com/users/412342/john-colby}
 }

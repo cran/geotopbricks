@@ -4,9 +4,18 @@
 \alias{writeRasterxGEOtop}
 \title{This function uses  \code{\link{writeRaster}} to create .asc maps which can be read by GEOtop}
 \usage{
-writeRasterxGEOtop(x, filename = NULL, overwrite = TRUE,
-  NAflag = -9999, use.decimal.formatter = FALSE,
-  start.from.zero = FALSE, keyword, wpath, suffix.ext = ".asc", ...)
+writeRasterxGEOtop(
+  x,
+  filename = NULL,
+  overwrite = TRUE,
+  NAflag = -9999,
+  use.decimal.formatter = FALSE,
+  start.from.zero = FALSE,
+  keyword,
+  wpath,
+  suffix.ext = ".asc",
+  ...
+)
 }
 \arguments{
 \item{x}{a Raster object, see \code{\link{writeRaster}}. It can be also a \code{\link{RasterBrick-class}} object.}
@@ -42,8 +51,8 @@ library(geotopbricks)
 
 ## Simulation working path
 
-file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
-package="geotopbricks")
+file <- paste0("https://raw.githubusercontent.com/ecor/geotopbricks_doc/master/template/",
+"rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc")
 snow <- raster(file)
 
 

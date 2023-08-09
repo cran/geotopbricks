@@ -16,8 +16,11 @@ NULL
 #' 
 #' ## Simulation working path
 #'
-#' file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
-#' package="geotopbricks")
+#' ##file <- system.file("rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc",
+#' ##package="geotopbricks")
+#' file <- paste0("https://raw.githubusercontent.com/ecor/geotopbricks_doc/master/template/",
+#' "rendena100/SnowDepthMapFile-2014-MA-mean-winter-2013-2014.asc")
+#
 #' snow <- raster(file)
 #' 
 #' min <- 0 # snow depth expressed in millimeters
@@ -35,8 +38,8 @@ color.bar.raster <- function(x,col,min=NA,max=NA,...) {
 	smin <- min
 	smax <- max
 	
-	if (class(x)=="GeotopRasterBrick") {
-	
+#	if (class(x)=="GeotopRasterBrick") {20230721
+	if (is(x,"GeotopRasterBrick")) {
 		min <- min_value(x)
 		max <- max_value(x)
 	
