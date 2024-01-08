@@ -340,18 +340,23 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 			 filecrecpath <- unlist(lapply(X=filecrecpath,FUN=function(x,nn) {sprintf(x,1:nn)},nn=ContinuousRecovery))
 			 length_points <- length(filepath)
 			 names_points <- filepath
+		
+			#exists <- file.exists(filecrecpath)
+			#filecrecpath <- filecrecpath[exists] 
 			 
-			exists <- file.exists(filecrecpath)
-			filecrecpath <- filecrecpath[exists] 
-			 
-			 
+		
 			filepath <- c(filepath,filecrecpath)
 			#print(filepath)  ### HERE EC 20151215
-			 
+			exists <- file.exists(filepath)
+			iexists <- which(exists)
+			if (length(iexists)==0) iexists=1
+			filepath <- filepath[iexists] 
+			
+			
 		 }
 		 out <- filepath
 		 out <-  list()
-		 
+		
 		 for (i in 1:length(filepath)) {
 			 
 			 if (is.null(date_field)) date_field <- NA 
@@ -426,6 +431,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 				
 				 temp<- temp[,-i_index]
 				 index <- as.POSIXlt(index,format=format,tz=tz)
+				 ## why is POSIXlt index <- as.POSIXct(index,format=format,tz=tz)
 				 temp <- as.zoo(temp)
 				 index(temp) <- index
 				 # insert sart date & date
@@ -466,12 +472,14 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 		 if (ContinuousRecoveryCond) {
 			 
 			 names_keys <- paste(keyword,formatter,sep="")
-			 names_keys <- sprintf(names_keys,1:length(names_points))
+			
+		##	 names_keys <- sprintf(names_keys,1:length(names_points)) ## REMOVED BY ecor on 20240107
 			 out <- base::lapply(X=names_keys, FUN=function(x,list,i_index){
 				
 				if (is.null(i_index)) i_index <- NA
 				if (length(i_index)<1) i_index <- NA
 				if (length(i_index)>1) i_index <- i_index[1]
+			
 				index <- str_detect(names(list),x)
 				list <- list[index]	 
 					
@@ -506,7 +514,7 @@ get.geotop.inpts.keyword.value <- function(keyword,inpts.frame=NULL,vector_sep=N
 					index <- temp[,i_index]
 					temp<- temp[,-i_index]
 					index <- as.POSIXlt(index,format=format,tz=tz)
-					
+					index <- as.POSIXlt(index,format=format,tz=tz)
 					#print(x)
 					###print(index)
 					#print(index[1:10])
