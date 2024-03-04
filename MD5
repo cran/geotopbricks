@@ -1,4 +1,4 @@
-4727bb85936664ac0dbf0e7f918d0eae *DESCRIPTION
+cf69b9f5e44226d3b296bd7867762c98 *DESCRIPTION
 fd39de4c8f208519e7c4a87c615ea402 *NAMESPACE
 eafaa15c1c33feb275262f87fcf8ecdb *R/AAAClasses.R
 3529701a8dcc06e747933fd3bc13ac6d *R/KML.GeotopRasterBrick.R
@@ -11,7 +11,7 @@ a39f9bf9923a961ce73aafcf58217b4f *R/create.geotop.inpts.keywords.R
 5cdf13972eb5ce15b4b433b4ed9d9206 *R/create.geotop.meteo.file.R
 ca737ec80a452b3bc2fa32b654d70cdf *R/declared.geotop.inpts.keywords.R
 df5cc50c656fa56d033be6f2b09a354a *R/geotopbrick_S3.R
-ead3770657773b078b02fa81e3da29af *R/get.geotop.inpts.keyword.value.R
+01bed490f257a08987642241527c5d2b *R/get.geotop.inpts.keyword.value.R
 b6ffa982903fb5d7f9ccbcc51d463a1f *R/get.recovery.state.R
 5821af211f8e27d2ae4877b10e6453bd *R/get.sf.points.R
 e38a7e0f8dcd37193560626313ebefa2 *R/getProjection.R
@@ -30,7 +30,7 @@ e73d87213e206aebe34e60803d681822 *R/replace.keyword.v0.R
 b35f64e9f246c62d995cbe8fb5118732 *R/write.geotop.table.R
 664da7cea731fdc7e35483dd8b3b7442 *R/write.vectorized.geotop.recovery.R
 31a162b2eddd84274a8a0f635e767ea6 *R/write.vectorized.variable.in.string.R
-f5b170f090690cf73966fc02de306187 *R/writeRasterxgeotop.R
+20b3375d977b64492dac3b69ac833383 *R/writeRasterxgeotop.R
 694c66a88463c315a5555334e3b25574 *README.md
 046f2ae6ea1042482018de25bb7477ce *data/bondone.rda
 5233b98110f087c4ea2fe93733d7af9f *data/datalist
@@ -185,5 +185,5 @@ d09d6fee67536294994c972affd1457c *man/write.ascii.vectorized.brick.Rd
 d0db7333cc92ce0ed23fc9292d3cbbcf *man/write.geotop.table.Rd
 bcafb9d18b309ad8d821f4836e5b709e *man/write.vectorized.geotop.recovery.Rd
 5db1edfdeff5826926dfaaafdc46e6b1 *man/write.vectorized.variable.in.string.Rd
-e7aeec6fb732ac4cb5a33ab9c90cbaec *man/writeRasterxGEOtop.Rd
+ffe1d8c71a269f175d2643c295e80d54 *man/writeRasterxGEOtop.Rd
 6c71a15dbf855b983c719b9c418e0c96 *man/zoo-class.Rd
