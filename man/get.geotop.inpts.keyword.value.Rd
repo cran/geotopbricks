@@ -17,7 +17,7 @@ get.geotop.inpts.keyword.value(
   file_extension = ".asc",
   add_wpath = FALSE,
   wpath = NULL,
-  use.read.raster.from.url = TRUE,
+  use.read.raster.from.url = FALSE,
   data.frame = FALSE,
   formatter = "\%04d",
   level = 1,
@@ -55,7 +55,7 @@ get.geotop.inpts.keyword.value(
 
 \item{tz}{format string representing the time zone, see \code{\link{as.POSIXlt}}, used if \code{date} is \code{TRUE}. Default is \code{"Etc/GMT-1"} (until the previous version it was \code{"A"}) which meens UTC +1.}
 
-\item{raster}{logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link{Raster-class}} object built with \code{\link{raster}} method.}
+\item{raster}{logical value. Default is \code{FALSE}. If \code{TRUE} function returns direclty the raster map as \code{\link[raster]{Raster-class}} object built with \code{\link[raster]{raster}} method.}
 
 \item{file_extension}{Extension to be added to the keyword if keyword is a file name. Default is \code{".asc"}}
 
@@ -63,9 +63,9 @@ get.geotop.inpts.keyword.value(
 
 \item{wpath}{working directory containing GEOtop files (included the inpts file). It is mandatory if \code{raster} is \code{TRUE}. See \code{\link{declared.geotop.inpts.keywords}}.}
 
-\item{use.read.raster.from.url}{logical value. Default is \code{TRUE}. If \code{TRUE} the RasterLayer are read with \code{\link{read.raster.from.url}}, istead of \code{\link{raster}} (otherwise). It is recomended in case the files whose paths are contained in \code{x} are remote and are 'http' addresses. In this cases the stand-alone method \code{raster(x)} does not always work and \code{use.read.raster.from.url} is necessary.}
+\item{use.read.raster.from.url}{logical value. Default is \code{TRUE}. If \code{TRUE} the RasterLayer are read with \code{\link{read.raster.from.url}}, istead of \code{\link[raster]{raster}} (otherwise). It is recomended in case the files whose paths are contained in \code{x} are remote and are 'http' addresses. In this cases the stand-alone method \code{raster(x)} does not always work and \code{use.read.raster.from.url} is necessary.}
 
-\item{data.frame}{logical value. It is an option for tabular data. If \code{TRUE} function returns direclty a data frame  or a list of  data frames as \code{\link{data.frame}} or \code{\link{zoo}} objects imported from the keyword-related files  using \code{\link{read.table}} function. In this case the argument \code{wpath} (see \code{\link{declared.geotop.inpts.keywords}}) is mandatory. Default is \code{FALSE}.}
+\item{data.frame}{logical value. It is an option for tabular data. If \code{TRUE} function returns direclty a data frame  or a list of  data frames as \code{\link{data.frame}} or \code{\link[zoo]{zoo}} objects imported from the keyword-related files  using \code{\link{read.table}} function. In this case the argument \code{wpath} (see \code{\link{declared.geotop.inpts.keywords}}) is mandatory. Default is \code{FALSE}.}
 
 \item{formatter}{string value. It is the decimal formatter contained in the file name and used in case the tabular data are referred at several points. Default is \code{"\%04d"} . It is used in case \code{data.frame} is \code{TRUE}.}
 
@@ -120,29 +120,56 @@ wpath <-
 'https://raw.githubusercontent.com/ecor/geotopbricks_doc/master/simulations/panola13_run2xC_test3'
 ## URL path (RAW VERSION) of
 ## https://github.com/ecor/geotopbricks_doc/tree/master/simulations/panola13_run2xC_test3
-prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath)
 
-slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath) 
-bedrock_depth <- get.geotop.inpts.keyword.value("BedrockDepthMapFile",raster=TRUE,wpath=wpath) 
+## This step allows to put all keywords with their value in memory:
+## it not mandataory but it can save running time in the session
+inpts.frame <- declared.geotop.inpts.keywords(wpath=wpath) 
 
-layers <- get.geotop.inpts.keyword.value("SoilLayerThicknesses",numeric=TRUE,wpath=wpath)
-names(layers) <- paste("L",1:length(layers),sep="")
+cond.time <- system.time({
+
+prefix <- get.geotop.inpts.keyword.value("SoilLiqWaterPressTensorFile",wpath=wpath,
+inpts.frame=inpts.frame)
+
+
+layers <- get.geotop.inpts.keyword.value("SoilLayerThicknesses",numeric=TRUE,wpath=wpath,
+inpts.frame=inpts.frame)
+names(layers) <- paste("L",1:length(layers),sep="",
+inpts.frame=inpts.frame)
 
 ##### set van genuchten parameters to estimate water volume 
-theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath)
-theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath)
+theta_sat <- get.geotop.inpts.keyword.value("ThetaSat",numeric=TRUE,wpath=wpath,
+inpts.frame=inpts.frame)
+theta_res <- get.geotop.inpts.keyword.value("ThetaRes",numeric=TRUE,wpath=wpath,
+inpts.frame=inpts.frame)
 alphaVG <-  get.geotop.inpts.keyword.value("AlphaVanGenuchten",
-numeric=TRUE,wpath=wpath) # expressed in mm^-1
+numeric=TRUE,wpath=wpath,inpts.frame=inpts.frame) # expressed in mm^-1
 
-nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath) 
+nVG <-  get.geotop.inpts.keyword.value("NVanGenuchten",numeric=TRUE,wpath=wpath,
+inpts.frame=inpts.frame) 
 
 
 ##### end set van genuchten parameters to estimate water volume
 
+})
 
-##### set meteo data
+cond2.time <- system.time({
+if (cond.time[["elapsed"]]<0.01) {
+
 \donttest{
+##### spatial gridded covarege data (raster)
+slope <- get.geotop.inpts.keyword.value("SlopeMapFile",raster=TRUE,wpath=wpath,
+ inpts.frame=inpts.frame) 
+bedrock_depth <- get.geotop.inpts.keyword.value("BedrockDepthMapFile",raster=TRUE,
+wpath=wpath,
+ inpts.frame=inpts.frame) 
+}
+}
+})
+cond3.time <- system.time({
+if (cond2.time[["elapsed"]]<1) {
 
+\donttest{
+##### meteo data
 tz <- "Etc/GMT-1"  ## See help(timezones) In particular:
 ## Most platforms support time zones of the form Etc/GMT+n 
 ## and Etc/GMT-n (possibly also without prefix Etc/), 
@@ -151,18 +178,18 @@ tz <- "Etc/GMT-1"  ## See help(timezones) In particular:
 ## (but consistent with names such as PST8PDT), negative offsets are times ahead of (east of) UTC, 
 ## positive offsets are times behind (west of) UTC.
 start <-  get.geotop.inpts.keyword.value("InitDateDDMMYYYYhhmm",
-date=TRUE,wpath=wpath,tz=tz) 
+date=TRUE,wpath=wpath,tz=tz,inpts.frame=inpts.frame) 
 end <- get.geotop.inpts.keyword.value("EndDateDDMMYYYYhhmm",
-date=TRUE,wpath=wpath,tz=tz) 
+date=TRUE,wpath=wpath,tz=tz,inpts.frame=inpts.frame) 
 
 nmeteo <- get.geotop.inpts.keyword.value("NumberOfMeteoStations",
-numeric=TRUE,wpath=wpath)
+numeric=TRUE,wpath=wpath,inpts.frame=inpts.frame)
 level <- 1:nmeteo
 
 ## set meteo data
 
  meteo <- get.geotop.inpts.keyword.value("MeteoFile",wpath=wpath,data.frame=TRUE,
-       level=level,start_date=start,end_date=end,tz=tz)
+       level=level,start_date=start,end_date=end,tz=tz,inpts.frame=inpts.frame)
 }
 
 ##### end set meteo data
@@ -184,7 +211,8 @@ wpath <-  paste0(
          wpath=wpath,data.frame=TRUE,date_field="Date12.DDMMYYYYhhmm.",
           formatter="\%04d",zlayer.formatter="z\%04d")
 }
-
+}
+})
 
 		
 
